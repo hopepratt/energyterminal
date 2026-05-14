@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Energy Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #0a0a0a; --white: #f5f4f0; --cream: #ede9df;
+    --orange: #f58438; --orange-dark: #d96e20; --gray: #6b6b6b; --border: #d8d3c8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--white); color: var(--black); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+
+  /* ── Login ── */
+  #login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--cream);
+  }
+  .login-box {
+    background: var(--white); border: 1px solid var(--border);
+    padding: 52px 48px; width: 100%; max-width: 400px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+  }
+  .login-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--orange); margin-bottom: 8px; }
+  .login-sub { font-size: 0.82rem; color: var(--gray); margin-bottom: 36px; }
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+  .field input {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+    font-family: inherit; font-size: 0.9rem; background: var(--white);
+    outline: none; transition: border-color 0.2s;
+  }
+  .field input:focus { border-color: var(--orange); }
+  .btn-login {
+    width: 100%; background: var(--orange); color: #fff;
+    border: none; padding: 13px; font-family: inherit;
+    font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; transition: background 0.2s; margin-top: 4px;
+  }
+  .btn-login:hover { background: var(--orange-dark); }
+  .login-error { color: #c0392b; font-size: 0.8rem; margin-top: 12px; display: none; }
+
+  /* ── Dashboard ── */
+  #dashboard { display: none; }
+  .dash-nav {
+    background: var(--black); padding: 0 48px; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .dash-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--orange); }
+  .dash-nav-right { display: flex; align-items: center; gap: 16px; }
+  .dash-nav a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; font-weight: 600; transition: color 0.2s; }
+  .dash-nav a:hover { color: var(--white); }
+  .dash-nav .btn-logout {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6); padding: 7px 16px; font-family: inherit;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .dash-nav .btn-logout:hover { border-color: #fff; color: #fff; }
+
+  .dash-body { max-width: 1000px; margin: 0 auto; padding: 48px 24px; }
+  .dash-section { margin-bottom: 56px; }
+  .dash-section-title {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+
+  /* Pages grid */
+  .pages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .page-card {
+    border: 1.5px solid var(--border); padding: 20px; text-decoration: none;
+    color: var(--black); transition: all 0.2s; display: flex; flex-direction: column; gap: 6px;
+  }
+  .page-card:hover { border-color: var(--orange); background: var(--cream); }
+  .page-card-name { font-weight: 600; font-size: 0.9rem; }
+  .page-card-file { font-size: 0.75rem; color: var(--gray); font-family: monospace; }
+  .page-card-arrow { margin-top: auto; font-size: 0.75rem; color: var(--orange); font-weight: 700; }
+
+  /* Settings form */
+  .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .settings-grid .field { margin-bottom: 0; }
+  .settings-grid .field.full { grid-column: 1 / -1; }
+  .settings-note { font-size: 0.78rem; color: var(--gray); margin-top: 4px; }
+  .settings-note a { color: var(--orange); }
+  .btn-save-settings {
+    background: var(--orange); color: #fff; border: none;
+    padding: 12px 28px; font-family: inherit; font-size: 0.82rem;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; margin-top: 24px;
+  }
+  .btn-save-settings:hover { background: var(--orange-dark); }
+  .settings-saved { display: none; color: #27ae60; font-size: 0.82rem; margin-top: 12px; }
+
+  /* Password change */
+  .password-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .btn-change-pw {
+    background: var(--black); color: #fff; border: none;
+    padding: 12px 28px; font-family: inherit; font-size: 0.82rem;
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; margin-top: 24px;
+  }
+  .btn-change-pw:hover { background: #333; }
+  .pw-message { font-size: 0.8rem; margin-top: 12px; }
+
+  /* Status banner */
+  .banner {
+    padding: 12px 20px; border-radius: 4px; font-size: 0.82rem;
+    font-weight: 600; margin-bottom: 28px; display: none;
+  }
+  .banner.success { background: #eaffea; color: #1e7e34; border: 1px solid #b7e4c7; }
+  .banner.warn { background: #fff8e1; color: #856404; border: 1px solid #ffd567; }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ─────────────────────────────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Energy Terminal</div>
+    <p class="login-sub">Admin panel — restricted access</p>
+    <form id="login-form">
+      <div class="field">
+        <label for="pw-input">Password</label>
+        <input type="password" id="pw-input" autocomplete="current-password" required/>
+      </div>
+      <button type="submit" class="btn-login">Login</button>
+      <p class="login-error" id="login-error">Incorrect password. Try again.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ──────────────────────────────────────────────────────────── -->
+<div id="dashboard">
+  <nav class="dash-nav">
+    <span class="dash-logo">⚡ ET Admin</span>
+    <div class="dash-nav-right">
+      <a href="index.html" target="_blank">View Site ↗</a>
+      <button class="btn-logout" id="btn-logout">Logout</button>
+    </div>
+  </nav>
+
+  <div class="dash-body">
+    <div class="banner" id="config-banner">
+      GitHub is not configured. Fill in the Settings section below so saves push directly to your repo.
+    </div>
+
+    <!-- Pages -->
+    <div class="dash-section">
+      <div class="dash-section-title">Pages — click to edit</div>
+      <div class="pages-grid">
+        <a href="index.html" class="page-card">
+          <span class="page-card-name">Home</span>
+          <span class="page-card-file">index.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="our-mission.html" class="page-card">
+          <span class="page-card-name">Our Mission</span>
+          <span class="page-card-file">our-mission.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="our-team.html" class="page-card">
+          <span class="page-card-name">Our Team</span>
+          <span class="page-card-file">our-team.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="join.html" class="page-card">
+          <span class="page-card-name">Join</span>
+          <span class="page-card-file">join.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="emerging-leaders.html" class="page-card">
+          <span class="page-card-name">Emerging Leaders</span>
+          <span class="page-card-file">emerging-leaders.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="virtual-visits.html" class="page-card">
+          <span class="page-card-name">Virtual Visits</span>
+          <span class="page-card-file">virtual-visits.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="podcast.html" class="page-card">
+          <span class="page-card-name">Podcast</span>
+          <span class="page-card-file">podcast.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="newsletter.html" class="page-card">
+          <span class="page-card-name">Newsletter</span>
+          <span class="page-card-file">newsletter.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="resource-hub.html" class="page-card">
+          <span class="page-card-name">Resource Hub</span>
+          <span class="page-card-file">resource-hub.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="career-pathways.html" class="page-card">
+          <span class="page-card-name">Career Pathways</span>
+          <span class="page-card-file">career-pathways.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="general-resources.html" class="page-card">
+          <span class="page-card-name">General Resources</span>
+          <span class="page-card-file">general-resources.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="recruitment-prep.html" class="page-card">
+          <span class="page-card-name">Recruitment Prep</span>
+          <span class="page-card-file">recruitment-prep.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="energy-verticals.html" class="page-card">
+          <span class="page-card-name">Energy Verticals</span>
+          <span class="page-card-file">energy-verticals.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+        <a href="energy-terminal.html" class="page-card">
+          <span class="page-card-name">Energy Terminal</span>
+          <span class="page-card-file">energy-terminal.html</span>
+          <span class="page-card-arrow">Edit →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- GitHub Settings -->
+    <div class="dash-section">
+      <div class="dash-section-title">GitHub Settings</div>
+      <div class="settings-grid">
+        <div class="field">
+          <label for="gh-owner">GitHub Username / Org</label>
+          <input type="text" id="gh-owner" placeholder="e.g. hopepratt"/>
+        </div>
+        <div class="field">
+          <label for="gh-repo">Repository Name</label>
+          <input type="text" id="gh-repo" placeholder="e.g. energy-terminal"/>
+        </div>
+        <div class="field">
+          <label for="gh-branch">Branch</label>
+          <input type="text" id="gh-branch" placeholder="main"/>
+        </div>
+        <div class="field">
+          <label for="gh-token">Personal Access Token</label>
+          <input type="password" id="gh-token" placeholder="ghp_…"/>
+          <p class="settings-note">
+            Create a token at <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>
+            with <strong>repo</strong> scope. Stored only in your browser.
+          </p>
+        </div>
+      </div>
+      <button class="btn-save-settings" id="btn-save-gh">Save Settings</button>
+      <p class="settings-saved" id="gh-saved">Settings saved.</p>
+    </div>
+
+    <!-- Change Password -->
+    <div class="dash-section">
+      <div class="dash-section-title">Change Admin Password</div>
+      <div class="password-grid">
+        <div class="field">
+          <label for="pw-new">New Password</label>
+          <input type="password" id="pw-new" placeholder="New password"/>
+        </div>
+        <div class="field">
+          <label for="pw-confirm">Confirm Password</label>
+          <input type="password" id="pw-confirm" placeholder="Confirm password"/>
+        </div>
+      </div>
+      <button class="btn-change-pw" id="btn-change-pw">Update Password</button>
+      <p class="pw-message" id="pw-message"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SESSION_KEY = 'et_admin_session';
+  const CONFIG_KEY  = 'et_github_config';
+  const PW_KEY      = 'et_admin_pw_hash';
+
+  // Default password hash: "EnergyAdmin2026"
+  const DEFAULT_HASH = 'c63846f6b529473abdf57ce0557f5f9462691d4784c80715d9b352e22331f770';
+
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  function getPasswordHash() {
+    return localStorage.getItem(PW_KEY) || DEFAULT_HASH;
+  }
+
+  // ── Auth check ────────────────────────────────────────────────────────────
+  let session = null;
+  try { session = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch(e) {}
+
+  if (session && session.loggedIn) {
+    showDashboard();
+  }
+
+  // ── Login ─────────────────────────────────────────────────────────────────
+  document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const pw = document.getElementById('pw-input').value;
+    const hash = await sha256(pw);
+    if (hash === getPasswordHash()) {
+      localStorage.setItem(SESSION_KEY, JSON.stringify({ loggedIn: true, ts: Date.now() }));
+      showDashboard();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  });
+
+  // ── Logout ────────────────────────────────────────────────────────────────
+  document.getElementById('btn-logout').addEventListener('click', function() {
+    localStorage.removeItem(SESSION_KEY);
+    location.reload();
+  });
+
+  // ── Dashboard init ────────────────────────────────────────────────────────
+  function showDashboard() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadGhSettings();
+  }
+
+  function loadGhSettings() {
+    let cfg = {};
+    try { cfg = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}'); } catch(e) {}
+    document.getElementById('gh-owner').value  = cfg.owner  || '';
+    document.getElementById('gh-repo').value   = cfg.repo   || '';
+    document.getElementById('gh-branch').value = cfg.branch || 'main';
+    document.getElementById('gh-token').value  = cfg.token  || '';
+
+    const banner = document.getElementById('config-banner');
+    if (!cfg.token || !cfg.owner || !cfg.repo) {
+      banner.style.display = 'block';
+      banner.classList.add('warn');
+    }
+  }
+
+  // ── Save GitHub settings ──────────────────────────────────────────────────
+  document.getElementById('btn-save-gh').addEventListener('click', function() {
+    const cfg = {
+      owner:  document.getElementById('gh-owner').value.trim(),
+      repo:   document.getElementById('gh-repo').value.trim(),
+      branch: document.getElementById('gh-branch').value.trim() || 'main',
+      token:  document.getElementById('gh-token').value.trim()
+    };
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
+    document.getElementById('gh-saved').style.display = 'block';
+    document.getElementById('config-banner').style.display = 'none';
+    setTimeout(() => { document.getElementById('gh-saved').style.display = 'none'; }, 3000);
+  });
+
+  // ── Change password ───────────────────────────────────────────────────────
+  document.getElementById('btn-change-pw').addEventListener('click', async function() {
+    const pw1 = document.getElementById('pw-new').value;
+    const pw2 = document.getElementById('pw-confirm').value;
+    const msg = document.getElementById('pw-message');
+
+    if (!pw1 || pw1.length < 8) {
+      msg.style.color = '#c0392b'; msg.textContent = 'Password must be at least 8 characters.'; return;
+    }
+    if (pw1 !== pw2) {
+      msg.style.color = '#c0392b'; msg.textContent = 'Passwords do not match.'; return;
+    }
+    const hash = await sha256(pw1);
+    localStorage.setItem(PW_KEY, hash);
+    msg.style.color = '#27ae60';
+    msg.textContent = 'Password updated. It is stored in this browser only.';
+    document.getElementById('pw-new').value = '';
+    document.getElementById('pw-confirm').value = '';
+  });
+</script>
+</body>
+</html>
