@@ -419,6 +419,54 @@
         <span class="et-act-icon">⧉</span> Duplicate
       </button>
 
+      <!-- Image editing (shown when <img> is selected) -->
+      <div id="et-img-section" style="display:none;">
+        <hr class="et-divider"/>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Image Source</label>
+          <input type="text" id="et-img-src" style="opacity:0.65;" readonly/>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Alt Text</label>
+          <input type="text" id="et-img-alt" placeholder="Describe the image"/>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Width</label>
+          <input type="text" id="et-img-width" placeholder="e.g. 100%, 400px, auto"/>
+        </div>
+        <button class="et-action-btn" id="et-img-replace-btn">
+          <span class="et-act-icon">🔄</span> Replace Image
+        </button>
+        <input type="file" id="et-img-replace-file" accept="image/*" style="display:none;"/>
+        <p id="et-img-replace-status" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:5px;"></p>
+      </div>
+
+      <hr class="et-divider"/>
+      <button class="et-action-btn" id="et-act-add-img">
+        <span class="et-act-icon">🖼</span> Add Image
+      </button>
+      <div id="et-add-img-form" style="display:none;margin-top:7px;">
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Choose Image</label>
+          <label class="et-action-btn" style="margin-bottom:0;justify-content:center;cursor:pointer;" id="et-add-img-pick-label">
+            <span class="et-act-icon">📁</span> <span id="et-add-img-filename">Choose File…</span>
+          </label>
+          <input type="file" id="et-add-img-file" accept="image/*" style="display:none;"/>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Alt Text</label>
+          <input type="text" id="et-add-img-alt" placeholder="Describe the image"/>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Width</label>
+          <input type="text" id="et-add-img-width" placeholder="e.g. 100%, 400px" value="100%"/>
+        </div>
+        <button class="et-action-btn primary" id="et-add-img-upload">
+          <span class="et-act-icon">⬆</span> Upload & Insert
+        </button>
+        <p id="et-add-img-status" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:5px;"></p>
+      </div>
+
       <hr class="et-divider"/>
       <button class="et-action-btn" id="et-act-add-btn">
         <span class="et-act-icon">➕</span> Add Button
@@ -652,8 +700,22 @@
       linkSection.style.display = 'none';
     }
 
-    // Reset add-button form
+    // Image section (Actions tab)
+    const img = getImage(el);
+    const imgSection = v('et-img-section');
+    if (img) {
+      imgSection.style.display = 'block';
+      v('et-img-src').value   = img.getAttribute('src') || '';
+      v('et-img-alt').value   = img.getAttribute('alt') || '';
+      v('et-img-width').value = img.style.width || img.getAttribute('width') || '';
+      v('et-img-replace-status').textContent = '';
+    } else {
+      imgSection.style.display = 'none';
+    }
+
+    // Reset forms
     v('et-add-btn-form').style.display = 'none';
+    v('et-add-img-form').style.display = 'none';
   }
 
   function v(id) { return document.getElementById(id); }
@@ -850,6 +912,145 @@
     v('et-new-btn-page').value = '#';
 
     select(btn);
+  });
+
+  // ── Image helpers ──────────────────────────────────────────────────────────
+  function getImage(el) {
+    if (!el) return null;
+    if (el.tagName === 'IMG') return el;
+    return el.querySelector('img');
+  }
+
+  function fileToBase64(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result.split(',')[1]); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function getGhConfig() {
+    try { return JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}'); } catch (e) { return {}; }
+  }
+
+  async function uploadImageToGitHub(file) {
+    var cfg = getGhConfig();
+    if (!cfg.token || !cfg.owner || !cfg.repo) {
+      throw new Error('GitHub not configured. Open admin.html → Settings.');
+    }
+    var safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    var filePath = 'images/' + Date.now() + '-' + safeName;
+    var base64   = await fileToBase64(file);
+    var branch   = cfg.branch || 'main';
+    var apiUrl   = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + filePath;
+    var headers  = {
+      'Authorization': 'token ' + cfg.token,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+    var res = await fetch(apiUrl, {
+      method: 'PUT', headers: headers,
+      body: JSON.stringify({
+        message: 'Upload image ' + safeName + ' via ET admin',
+        content: base64,
+        branch: branch
+      })
+    });
+    if (!res.ok) {
+      var err = await res.json();
+      throw new Error(err.message || res.status);
+    }
+    return filePath;
+  }
+
+  // ── Existing image editing wiring ─────────────────────────────────────────
+  v('et-img-alt').addEventListener('input', function () {
+    var img = selectedEl ? getImage(selectedEl) : null;
+    if (img) img.setAttribute('alt', this.value);
+  });
+
+  v('et-img-width').addEventListener('input', function () {
+    var img = selectedEl ? getImage(selectedEl) : null;
+    if (img) img.style.width = this.value;
+  });
+
+  v('et-img-replace-btn').addEventListener('click', function () {
+    v('et-img-replace-file').click();
+  });
+
+  v('et-img-replace-file').addEventListener('change', async function () {
+    if (!this.files.length) return;
+    var img = selectedEl ? getImage(selectedEl) : null;
+    if (!img) return;
+    var statusEl = v('et-img-replace-status');
+    statusEl.textContent = 'Uploading…';
+    try {
+      var filePath = await uploadImageToGitHub(this.files[0]);
+      img.src = filePath;
+      v('et-img-src').value = filePath;
+      statusEl.textContent = 'Replaced ✓';
+      setTimeout(function () { statusEl.textContent = ''; }, 3000);
+    } catch (e) {
+      statusEl.textContent = 'Error: ' + e.message;
+    }
+    this.value = '';
+  });
+
+  // ── Add image wiring ──────────────────────────────────────────────────────
+  v('et-act-add-img').addEventListener('click', function () {
+    var form = v('et-add-img-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+
+  v('et-add-img-pick-label').addEventListener('click', function (e) {
+    e.preventDefault();
+    v('et-add-img-file').click();
+  });
+
+  v('et-add-img-file').addEventListener('change', function () {
+    if (this.files.length) {
+      v('et-add-img-filename').textContent = this.files[0].name;
+    }
+  });
+
+  v('et-add-img-upload').addEventListener('click', async function () {
+    var fileInput = v('et-add-img-file');
+    var statusMsg = v('et-add-img-status');
+    if (!fileInput.files.length) {
+      statusMsg.textContent = 'Choose an image first.';
+      return;
+    }
+    statusMsg.textContent = 'Uploading…';
+    try {
+      var filePath = await uploadImageToGitHub(fileInput.files[0]);
+      var alt   = v('et-add-img-alt').value || '';
+      var width = v('et-add-img-width').value || '100%';
+      var img   = document.createElement('img');
+      img.src   = filePath;
+      img.alt   = alt;
+      img.style.width   = width;
+      img.style.display = 'block';
+
+      if (selectedEl) {
+        selectedEl.parentNode.insertBefore(img, selectedEl.nextSibling);
+      } else {
+        (document.querySelector('main') || document.querySelector('section') || document.body).appendChild(img);
+      }
+
+      statusMsg.textContent = 'Done ✓';
+      setTimeout(function () {
+        v('et-add-img-form').style.display = 'none';
+        statusMsg.textContent = '';
+        v('et-add-img-filename').textContent = 'Choose File…';
+        fileInput.value = '';
+        v('et-add-img-alt').value   = '';
+        v('et-add-img-width').value = '100%';
+      }, 1200);
+      select(img);
+    } catch (e) {
+      statusMsg.textContent = 'Error: ' + e.message;
+    }
   });
 
   // ── Save to GitHub ────────────────────────────────────────────────────────
