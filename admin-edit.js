@@ -371,6 +371,43 @@
       <button class="et-action-btn primary" id="et-act-text">
         <span class="et-act-icon">✏️</span> Edit Text Content
       </button>
+
+      <!-- Link editing (shown when selected element is/contains <a>) -->
+      <div id="et-link-section" style="display:none;">
+        <hr class="et-divider"/>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Link URL</label>
+          <input type="text" id="et-link-href" placeholder="e.g. join.html or https://…"/>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Quick Link to Page</label>
+          <select id="et-link-page">
+            <option value="">— Custom URL —</option>
+            <option value="index.html">Home</option>
+            <option value="our-mission.html">Our Mission</option>
+            <option value="our-team.html">Our Team</option>
+            <option value="join.html">Join</option>
+            <option value="emerging-leaders.html">Emerging Leaders</option>
+            <option value="virtual-visits.html">Virtual Visits</option>
+            <option value="podcast.html">Podcast</option>
+            <option value="newsletter.html">Newsletter</option>
+            <option value="resource-hub.html">Resource Hub</option>
+            <option value="career-pathways.html">Career Pathways</option>
+            <option value="general-resources.html">General Resources</option>
+            <option value="recruitment-prep.html">Recruitment Prep</option>
+            <option value="energy-verticals.html">Energy Verticals</option>
+            <option value="energy-terminal.html">Energy Terminal</option>
+          </select>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Open In</label>
+          <div class="et-align-btns">
+            <button data-tgt="" id="et-tgt-self">Same Tab</button>
+            <button data-tgt="_blank" id="et-tgt-blank">New Tab</button>
+          </div>
+        </div>
+      </div>
+
       <hr class="et-divider"/>
       <button class="et-action-btn" id="et-act-up">
         <span class="et-act-icon">↑</span> Move Up
@@ -381,6 +418,49 @@
       <button class="et-action-btn" id="et-act-dupe">
         <span class="et-act-icon">⧉</span> Duplicate
       </button>
+
+      <hr class="et-divider"/>
+      <button class="et-action-btn" id="et-act-add-btn">
+        <span class="et-act-icon">➕</span> Add Button
+      </button>
+      <div id="et-add-btn-form" style="display:none;margin-top:7px;">
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Button Text</label>
+          <input type="text" id="et-new-btn-text" placeholder="e.g. Learn More" value="New Button"/>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Link To</label>
+          <select id="et-new-btn-page">
+            <option value="#">— Select page —</option>
+            <option value="index.html">Home</option>
+            <option value="our-mission.html">Our Mission</option>
+            <option value="our-team.html">Our Team</option>
+            <option value="join.html">Join</option>
+            <option value="emerging-leaders.html">Emerging Leaders</option>
+            <option value="virtual-visits.html">Virtual Visits</option>
+            <option value="podcast.html">Podcast</option>
+            <option value="newsletter.html">Newsletter</option>
+            <option value="resource-hub.html">Resource Hub</option>
+            <option value="career-pathways.html">Career Pathways</option>
+            <option value="general-resources.html">General Resources</option>
+            <option value="recruitment-prep.html">Recruitment Prep</option>
+            <option value="energy-verticals.html">Energy Verticals</option>
+            <option value="energy-terminal.html">Energy Terminal</option>
+          </select>
+        </div>
+        <div class="et-ctrl">
+          <label class="et-ctrl-label">Style</label>
+          <select id="et-new-btn-style">
+            <option value="btn-primary">Primary (Orange Filled)</option>
+            <option value="btn-outline">Outline (Black Border)</option>
+            <option value="link-chip">Chip (Orange Border)</option>
+          </select>
+        </div>
+        <button class="et-action-btn primary" id="et-new-btn-insert">
+          <span class="et-act-icon">✓</span> Insert Button
+        </button>
+      </div>
+
       <hr class="et-divider"/>
       <button class="et-action-btn danger" id="et-act-del">
         <span class="et-act-icon">🗑</span> Delete Element
@@ -465,7 +545,8 @@
     el.classList.add('et-selected');
 
     const tag = el.tagName.toLowerCase();
-    const cls = el.className
+    const clsStr = typeof el.className === 'string' ? el.className : (el.className.baseVal || '');
+    const cls = clsStr
       .replace(/et-[\w-]+\s?/g, '').trim().split(/\s+/).slice(0, 2)
       .filter(Boolean).map(c => '.' + c).join('');
     document.getElementById('et-panel-el-tag').textContent = tag + cls;
@@ -553,6 +634,26 @@
     v('et-grid-cols').value = s.gridTemplateColumns || '';
     v('et-grid-rows').value = s.gridTemplateRows    || '';
     v('et-grid-col-self').value = s.gridColumn      || '';
+
+    // Link section (Actions tab)
+    const anchor = getAnchor(el);
+    const linkSection = v('et-link-section');
+    if (anchor) {
+      linkSection.style.display = 'block';
+      v('et-link-href').value = anchor.getAttribute('href') || '';
+      const pageSelect = v('et-link-page');
+      const hrefVal = anchor.getAttribute('href') || '';
+      const matchOpt = Array.from(pageSelect.options).find(o => o.value && o.value === hrefVal);
+      pageSelect.value = matchOpt ? hrefVal : '';
+      const tgt = anchor.getAttribute('target') || '';
+      v('et-tgt-self').classList.toggle('active', tgt !== '_blank');
+      v('et-tgt-blank').classList.toggle('active', tgt === '_blank');
+    } else {
+      linkSection.style.display = 'none';
+    }
+
+    // Reset add-button form
+    v('et-add-btn-form').style.display = 'none';
   }
 
   function v(id) { return document.getElementById(id); }
@@ -679,6 +780,76 @@
     const toRemove = selectedEl;
     deselect();
     toRemove.remove();
+  });
+
+  // ── Link editing wiring ─────────────────────────────────────────────────
+  function getAnchor(el) {
+    if (!el) return null;
+    if (el.tagName === 'A') return el;
+    const parent = el.closest('a');
+    if (parent) return parent;
+    return el.querySelector('a');
+  }
+
+  v('et-link-href').addEventListener('input', function () {
+    const anchor = selectedEl ? getAnchor(selectedEl) : null;
+    if (anchor) {
+      anchor.setAttribute('href', this.value);
+      v('et-link-page').value = '';
+    }
+  });
+
+  v('et-link-page').addEventListener('change', function () {
+    if (!this.value) return;
+    const anchor = selectedEl ? getAnchor(selectedEl) : null;
+    if (anchor) {
+      anchor.setAttribute('href', this.value);
+      v('et-link-href').value = this.value;
+    }
+  });
+
+  v('et-tgt-self').addEventListener('click', function () {
+    const anchor = selectedEl ? getAnchor(selectedEl) : null;
+    if (anchor) {
+      anchor.removeAttribute('target');
+      this.classList.add('active');
+      v('et-tgt-blank').classList.remove('active');
+    }
+  });
+
+  v('et-tgt-blank').addEventListener('click', function () {
+    const anchor = selectedEl ? getAnchor(selectedEl) : null;
+    if (anchor) {
+      anchor.setAttribute('target', '_blank');
+      this.classList.add('active');
+      v('et-tgt-self').classList.remove('active');
+    }
+  });
+
+  // ── Add button wiring ─────────────────────────────────────────────────────
+  v('et-act-add-btn').addEventListener('click', function () {
+    const form = v('et-add-btn-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+
+  v('et-new-btn-insert').addEventListener('click', function () {
+    if (!selectedEl) return;
+    const text  = v('et-new-btn-text').value.trim() || 'New Button';
+    const href  = v('et-new-btn-page').value || '#';
+    const style = v('et-new-btn-style').value || 'btn-primary';
+
+    const btn = document.createElement('a');
+    btn.href = href;
+    btn.className = style;
+    btn.textContent = text;
+
+    selectedEl.parentNode.insertBefore(btn, selectedEl.nextSibling);
+
+    v('et-add-btn-form').style.display = 'none';
+    v('et-new-btn-text').value = 'New Button';
+    v('et-new-btn-page').value = '#';
+
+    select(btn);
   });
 
   // ── Save to GitHub ────────────────────────────────────────────────────────
