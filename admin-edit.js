@@ -1472,12 +1472,13 @@
       'Content-Type': 'application/json'
     };
 
-    try {
-      const getRes = await fetch(`${apiBase}?ref=${branch}`, { headers });
+    const encoded = btoa(unescape(encodeURIComponent(html)));
+
+    async function attemptSave(retries) {
+      const getRes = await fetch(`${apiBase}?ref=${branch}`, { headers, cache: 'no-store' });
       if (!getRes.ok) throw new Error(`Could not fetch file: ${getRes.status}`);
       const fileData = await getRes.json();
-      const encoded  = btoa(unescape(encodeURIComponent(html)));
-      const putRes   = await fetch(apiBase, {
+      const putRes = await fetch(apiBase, {
         method: 'PUT', headers,
         body: JSON.stringify({
           message: `Update ${pagePath} via ET admin`,
@@ -1486,12 +1487,19 @@
           branch
         })
       });
-      if (putRes.ok) {
-        setStatus('Saved ✓', 4000);
-      } else {
-        const err = await putRes.json();
-        setStatus('Error: ' + (err.message || putRes.status), 6000);
+      if (putRes.ok) return true;
+      if (putRes.status === 409 && retries > 0) {
+        setStatus('Conflict — retrying…');
+        await new Promise(r => setTimeout(r, 1500));
+        return attemptSave(retries - 1);
       }
+      const err = await putRes.json();
+      throw new Error(err.message || putRes.status);
+    }
+
+    try {
+      await attemptSave(3);
+      setStatus('Saved ✓', 4000);
     } catch (e) {
       setStatus('Error: ' + e.message, 6000);
     }
