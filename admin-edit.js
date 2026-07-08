@@ -141,6 +141,77 @@
     .et-action-btn.danger:hover { background: #2d0a0a; border-color: #8b0000; color: #ff6b6b; }
     .et-act-icon { width: 16px; text-align: center; flex-shrink: 0; }
     .et-help { font-size: 0.68rem; color: rgba(255,255,255,0.3); line-height: 1.5; margin-top: 10px; }
+
+    /* ── Insert points ("+" between sections) ── */
+    .et-insert-point {
+      display: flex; align-items: center; justify-content: center;
+      padding: 4px 0; cursor: pointer; position: relative;
+    }
+    .et-insert-point::before {
+      content: ''; position: absolute; left: 15%; right: 15%;
+      height: 2px; background: rgba(245,132,56,0.15); top: 50%;
+    }
+    .et-insert-plus {
+      width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(245,132,56,0.3);
+      background: rgba(10,10,10,0.7); color: #f58438;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700; line-height: 1;
+      position: relative; z-index: 1; transition: all 0.2s;
+      opacity: 0.5;
+    }
+    .et-insert-point:hover .et-insert-plus {
+      opacity: 1; transform: scale(1.15); border-color: #f58438;
+      background: #f58438; color: #fff;
+      box-shadow: 0 2px 12px rgba(245,132,56,0.4);
+    }
+
+    /* ── Floating toolbar ── */
+    #et-float-bar {
+      position: absolute; z-index: 99997;
+      background: #0a0a0a; border: 1px solid #333; border-radius: 8px;
+      padding: 3px 4px; display: none; align-items: center; gap: 1px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+      font-family: 'DM Sans', sans-serif;
+    }
+    #et-float-bar button {
+      background: none; border: none; color: rgba(255,255,255,0.55);
+      cursor: pointer; padding: 6px 9px; border-radius: 5px;
+      font-size: 14px; transition: all 0.12s; line-height: 1;
+    }
+    #et-float-bar button:hover {
+      background: rgba(255,255,255,0.1); color: #fff;
+    }
+    #et-float-bar button.et-fb-active {
+      background: rgba(245,132,56,0.15); color: #f58438;
+    }
+    #et-float-bar .et-fb-sep {
+      width: 1px; height: 18px; background: #333; margin: 0 2px; flex-shrink: 0;
+    }
+
+    /* ── Add menu ── */
+    #et-add-menu {
+      position: absolute; z-index: 100000;
+      background: #0a0a0a; border: 1px solid #333; border-radius: 8px;
+      padding: 6px; display: none; flex-direction: column;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+      min-width: 170px; font-family: 'DM Sans', sans-serif;
+    }
+    #et-add-menu .et-am-label {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      padding: 6px 12px 4px;
+    }
+    #et-add-menu button {
+      background: none; border: none; color: #f5f4f0;
+      padding: 9px 12px; text-align: left; cursor: pointer;
+      font-family: inherit; font-size: 0.82rem; font-weight: 500;
+      border-radius: 5px; transition: background 0.12s;
+      display: flex; align-items: center; gap: 10px;
+    }
+    #et-add-menu button:hover {
+      background: rgba(245,132,56,0.12); color: #f58438;
+    }
+    #et-add-menu button .et-am-icon { width: 18px; text-align: center; font-size: 14px; }
   `;
   document.head.appendChild(adminStyle);
 
@@ -518,6 +589,45 @@
   `;
   document.body.appendChild(panel);
 
+  // ── Floating toolbar (appears above selected element) ─────────────────────
+  const floatBar = document.createElement('div');
+  floatBar.id = 'et-float-bar';
+  floatBar.innerHTML = `
+    <button id="et-fb-text" title="Edit text (or double-click)">✏️</button>
+    <button id="et-fb-add" title="Add element here">➕</button>
+    <span class="et-fb-sep"></span>
+    <button id="et-fb-dupe" title="Duplicate">⧉</button>
+    <button id="et-fb-del" title="Delete">🗑</button>
+    <span class="et-fb-sep"></span>
+    <button id="et-fb-panel" title="Toggle style panel">⚙️</button>
+  `;
+  document.body.appendChild(floatBar);
+
+  // ── Add menu (shared by "+" points and floating toolbar) ──────────────────
+  const addMenu = document.createElement('div');
+  addMenu.id = 'et-add-menu';
+  addMenu.innerHTML = `
+    <div class="et-am-label">Add element</div>
+    <button data-add="h2"><span class="et-am-icon">H</span> Heading</button>
+    <button data-add="p"><span class="et-am-icon">¶</span> Text</button>
+    <button data-add="button"><span class="et-am-icon">▢</span> Button</button>
+    <button data-add="image"><span class="et-am-icon">🖼</span> Image</button>
+    <button data-add="hr"><span class="et-am-icon">—</span> Divider</button>
+  `;
+  document.body.appendChild(addMenu);
+
+  // Hidden file input for add-menu image flow
+  const addMenuFileInput = document.createElement('input');
+  addMenuFileInput.type = 'file';
+  addMenuFileInput.accept = 'image/*';
+  addMenuFileInput.style.display = 'none';
+  addMenuFileInput.id = 'et-am-file';
+  document.body.appendChild(addMenuFileInput);
+
+  let addMenuInsertRef = null; // insert before this element (null = append)
+  let addMenuParent    = null; // parent to insert into
+  let panelVisible     = false;
+
   // ── Tab switching ─────────────────────────────────────────────────────────
   panel.querySelectorAll('.et-tab').forEach(tab => {
     tab.addEventListener('click', function () {
@@ -540,17 +650,25 @@
       document.body.addEventListener('mouseover', onHover);
       document.body.addEventListener('mouseout', onHoverOut);
       document.body.addEventListener('click', onClick, true);
+      document.body.addEventListener('dblclick', onDblClick, true);
       document.addEventListener('keydown', onKeydown);
+      window.addEventListener('scroll', onScrollThrottled);
+      createInsertPoints();
     } else {
       this.textContent = 'Edit Page';
       this.classList.remove('active');
       btnSave.style.display = 'none';
       stopTextEdit();
       deselect();
+      hideAddMenu();
+      removeInsertPoints();
+      floatBar.style.display = 'none';
       document.body.removeEventListener('mouseover', onHover);
       document.body.removeEventListener('mouseout', onHoverOut);
       document.body.removeEventListener('click', onClick, true);
+      document.body.removeEventListener('dblclick', onDblClick, true);
       document.removeEventListener('keydown', onKeydown);
+      window.removeEventListener('scroll', onScrollThrottled);
     }
   });
 
@@ -572,6 +690,7 @@
     e.preventDefault();
     e.stopPropagation();
 
+    hideAddMenu();
     if (textEditEl && !textEditEl.contains(e.target)) stopTextEdit();
 
     if (!e.target || e.target === document.body || e.target === document.documentElement) {
@@ -580,8 +699,25 @@
     select(e.target);
   }
 
+  // ── Double-click to edit text ─────────────────────────────────────────────
+  function onDblClick(e) {
+    if (isAdminEl(e.target)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var el = e.target;
+    if (!el || el === document.body) return;
+    select(el);
+    stopTextEdit();
+    textEditEl = selectedEl;
+    selectedEl.contentEditable = 'true';
+    selectedEl.setAttribute('data-et-textedit', '1');
+    selectedEl.focus();
+  }
+
   function isAdminEl(el) {
-    return el.closest('#et-panel') || el.closest('#et-admin-bar');
+    return el.closest('#et-panel') || el.closest('#et-admin-bar') ||
+           el.closest('#et-float-bar') || el.closest('#et-add-menu') ||
+           el.closest('.et-insert-point');
   }
 
   // ── Selection ─────────────────────────────────────────────────────────────
@@ -599,9 +735,12 @@
       .filter(Boolean).map(c => '.' + c).join('');
     document.getElementById('et-panel-el-tag').textContent = tag + cls;
 
-    panel.style.display = 'flex';
-    populatePanel(el);
+    if (panelVisible) {
+      panel.style.display = 'flex';
+      populatePanel(el);
+    }
     document.getElementById('et-act-text').textContent = '✏️ Edit Text Content';
+    positionFloatBar();
   }
 
   function deselect() {
@@ -610,6 +749,30 @@
       selectedEl = null;
     }
     panel.style.display = 'none';
+    floatBar.style.display = 'none';
+    hideAddMenu();
+  }
+
+  // ── Floating toolbar positioning ──────────────────────────────────────────
+  function positionFloatBar() {
+    if (!selectedEl || !editMode) { floatBar.style.display = 'none'; return; }
+    var rect = selectedEl.getBoundingClientRect();
+    floatBar.style.display = 'flex';
+    var barH = floatBar.offsetHeight || 36;
+    var top = rect.top + window.scrollY - barH - 8;
+    if (top < window.scrollY + 72) top = rect.bottom + window.scrollY + 8;
+    var left = rect.left + window.scrollX;
+    var maxLeft = window.innerWidth - floatBar.offsetWidth - 10;
+    if (left > maxLeft) left = maxLeft;
+    if (left < 4) left = 4;
+    floatBar.style.top = top + 'px';
+    floatBar.style.left = left + 'px';
+  }
+
+  var scrollTimer = null;
+  function onScrollThrottled() {
+    if (scrollTimer) return;
+    scrollTimer = setTimeout(function () { scrollTimer = null; positionFloatBar(); }, 30);
   }
 
   function stopTextEdit() {
@@ -914,6 +1077,209 @@
     select(btn);
   });
 
+  // ── "+" insert points between sections ──────────────────────────────────
+  function createInsertPoints() {
+    removeInsertPoints();
+    var children = Array.from(document.body.children).filter(function (el) {
+      var tag = el.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE') return false;
+      if (el.id === 'et-admin-bar' || el.id === 'et-panel' || el.id === 'et-float-bar' ||
+          el.id === 'et-add-menu' || el.id === 'et-am-file') return false;
+      if (el.classList.contains('et-insert-point')) return false;
+      return true;
+    });
+    for (var i = 1; i < children.length; i++) {
+      var next = children[i];
+      var point = document.createElement('div');
+      point.className = 'et-insert-point';
+      point.innerHTML = '<span class="et-insert-plus">+</span>';
+      (function (ref, par) {
+        point.addEventListener('click', function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+          openAddMenu(this, ref, par);
+        });
+      })(next, next.parentNode);
+      document.body.insertBefore(point, next);
+    }
+  }
+
+  function removeInsertPoints() {
+    document.querySelectorAll('.et-insert-point').forEach(function (el) { el.remove(); });
+  }
+
+  // ── Add menu ──────────────────────────────────────────────────────────────
+  function openAddMenu(triggerEl, insertBeforeEl, parentEl) {
+    addMenuInsertRef = insertBeforeEl;
+    addMenuParent = parentEl;
+    var rect = triggerEl.getBoundingClientRect();
+    var top = rect.bottom + window.scrollY + 4;
+    var left = rect.left + window.scrollX + rect.width / 2 - 85;
+    if (left < 8) left = 8;
+    if (left + 170 > window.innerWidth) left = window.innerWidth - 178;
+    addMenu.style.top = top + 'px';
+    addMenu.style.left = left + 'px';
+    addMenu.style.display = 'flex';
+  }
+
+  function hideAddMenu() {
+    addMenu.style.display = 'none';
+    addMenuInsertRef = null;
+    addMenuParent = null;
+  }
+
+  addMenu.querySelectorAll('button[data-add]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var type = this.dataset.add;
+      var parent = addMenuParent || (selectedEl ? selectedEl.parentNode : document.body);
+      var ref = addMenuInsertRef || (selectedEl ? selectedEl.nextSibling : null);
+      hideAddMenu();
+
+      if (type === 'image') {
+        addMenuInsertRef = ref;
+        addMenuParent = parent;
+        addMenuFileInput.click();
+        return;
+      }
+
+      var newEl = createAddedElement(type);
+      parent.insertBefore(newEl, ref);
+      removeInsertPoints();
+      createInsertPoints();
+      select(newEl);
+
+      if (type === 'h2' || type === 'p') {
+        stopTextEdit();
+        textEditEl = newEl;
+        newEl.contentEditable = 'true';
+        newEl.setAttribute('data-et-textedit', '1');
+        newEl.focus();
+      }
+      if (type === 'button') {
+        panelVisible = true;
+        panel.style.display = 'flex';
+        populatePanel(newEl);
+        panel.querySelector('.et-tab[data-tab="actions"]').click();
+      }
+    });
+  });
+
+  function createAddedElement(type) {
+    var el;
+    if (type === 'h2') {
+      el = document.createElement('h2');
+      el.textContent = 'New Heading';
+      el.style.fontFamily = "'Playfair Display', serif";
+      el.style.fontSize = '2rem';
+      el.style.fontWeight = '700';
+      el.style.padding = '20px 80px';
+    } else if (type === 'p') {
+      el = document.createElement('p');
+      el.textContent = 'New paragraph — double-click to edit.';
+      el.style.fontSize = '1rem';
+      el.style.lineHeight = '1.7';
+      el.style.padding = '10px 80px';
+    } else if (type === 'button') {
+      el = document.createElement('a');
+      el.href = '#';
+      el.className = 'btn-primary';
+      el.textContent = 'New Button';
+      el.style.display = 'inline-block';
+      el.style.margin = '10px 80px';
+    } else if (type === 'hr') {
+      el = document.createElement('hr');
+      el.style.border = 'none';
+      el.style.borderTop = '1px solid #d8d3c8';
+      el.style.margin = '40px 80px';
+    }
+    return el;
+  }
+
+  // Handle image insertion from add menu
+  addMenuFileInput.addEventListener('change', async function () {
+    if (!this.files.length) return;
+    var parent = addMenuParent || document.body;
+    var ref = addMenuInsertRef;
+    addMenuInsertRef = null;
+    addMenuParent = null;
+    setStatus('Uploading image…');
+    try {
+      var filePath = await uploadImageToGitHub(this.files[0]);
+      var img = document.createElement('img');
+      img.src = filePath;
+      img.alt = '';
+      img.style.width = '100%';
+      img.style.maxWidth = '600px';
+      img.style.display = 'block';
+      img.style.margin = '20px auto';
+      parent.insertBefore(img, ref);
+      removeInsertPoints();
+      createInsertPoints();
+      select(img);
+      setStatus('Image added ✓', 3000);
+    } catch (e) {
+      setStatus('Error: ' + e.message, 5000);
+    }
+    this.value = '';
+  });
+
+  // ── Floating toolbar wiring ───────────────────────────────────────────────
+  v('et-fb-text').addEventListener('click', function () {
+    if (!selectedEl) return;
+    if (textEditEl === selectedEl) {
+      stopTextEdit();
+      this.classList.remove('et-fb-active');
+    } else {
+      stopTextEdit();
+      textEditEl = selectedEl;
+      selectedEl.contentEditable = 'true';
+      selectedEl.setAttribute('data-et-textedit', '1');
+      selectedEl.focus();
+      this.classList.add('et-fb-active');
+    }
+  });
+
+  v('et-fb-add').addEventListener('click', function () {
+    if (!selectedEl) return;
+    addMenuInsertRef = selectedEl.nextSibling;
+    addMenuParent = selectedEl.parentNode;
+    openAddMenu(this, addMenuInsertRef, addMenuParent);
+  });
+
+  v('et-fb-dupe').addEventListener('click', function () {
+    if (!selectedEl) return;
+    var clone = selectedEl.cloneNode(true);
+    clone.classList.remove('et-selected', 'et-hover');
+    clone.removeAttribute('data-et-textedit');
+    clone.contentEditable = 'false';
+    selectedEl.parentNode.insertBefore(clone, selectedEl.nextSibling);
+    removeInsertPoints();
+    createInsertPoints();
+  });
+
+  v('et-fb-del').addEventListener('click', function () {
+    if (!selectedEl) return;
+    if (!confirm('Delete this element?')) return;
+    var toRemove = selectedEl;
+    deselect();
+    toRemove.remove();
+    removeInsertPoints();
+    createInsertPoints();
+  });
+
+  v('et-fb-panel').addEventListener('click', function () {
+    panelVisible = !panelVisible;
+    if (panelVisible && selectedEl) {
+      panel.style.display = 'flex';
+      populatePanel(selectedEl);
+      this.classList.add('et-fb-active');
+    } else {
+      panel.style.display = 'none';
+      this.classList.remove('et-fb-active');
+    }
+  });
+
   // ── Image helpers ──────────────────────────────────────────────────────────
   function getImage(el) {
     if (!el) return null;
@@ -1078,8 +1444,12 @@
     });
 
     // Remove admin elements so they don't appear in saved HTML
+    removeInsertPoints();
     bar.remove();
     panel.remove();
+    floatBar.remove();
+    addMenu.remove();
+    addMenuFileInput.remove();
     adminStyle.remove();
 
     const pagePath = window.location.pathname.split('/').pop() || 'index.html';
@@ -1089,6 +1459,10 @@
     document.head.appendChild(adminStyle);
     document.body.appendChild(bar);
     document.body.appendChild(panel);
+    document.body.appendChild(floatBar);
+    document.body.appendChild(addMenu);
+    document.body.appendChild(addMenuFileInput);
+    if (editMode) createInsertPoints();
 
     const branch  = cfg.branch || 'main';
     const apiBase = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${pagePath}`;
