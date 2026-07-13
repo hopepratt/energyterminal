@@ -463,7 +463,6 @@
             <option value="emerging-leaders.html">Emerging Leaders</option>
             <option value="virtual-visits.html">Virtual Visits</option>
             <option value="podcast.html">Podcast</option>
-            <option value="newsletter.html">Newsletter</option>
             <option value="resource-hub.html">Resource Hub</option>
             <option value="career-pathways.html">Career Pathways</option>
             <option value="general-resources.html">General Resources</option>
@@ -560,7 +559,6 @@
             <option value="emerging-leaders.html">Emerging Leaders</option>
             <option value="virtual-visits.html">Virtual Visits</option>
             <option value="podcast.html">Podcast</option>
-            <option value="newsletter.html">Newsletter</option>
             <option value="resource-hub.html">Resource Hub</option>
             <option value="career-pathways.html">Career Pathways</option>
             <option value="general-resources.html">General Resources</option>
