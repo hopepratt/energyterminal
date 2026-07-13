@@ -38,17 +38,19 @@
     #et-status { font-size: 0.72rem; color: rgba(255,255,255,0.5); min-width: 60px; }
 
     .et-hover:not(.et-selected) {
-      outline: 1px dashed rgba(245,132,56,0.4) !important;
-      outline-offset: 1px !important;
+      outline: 2px dashed rgba(0,168,255,0.5) !important;
+      outline-offset: 2px !important;
       cursor: pointer !important;
     }
     .et-selected {
-      outline: 2px solid #f58438 !important;
-      outline-offset: 1px !important;
+      outline: 2px solid #00a8ff !important;
+      outline-offset: 2px !important;
+      box-shadow: 0 0 0 4px rgba(0,168,255,0.15) !important;
     }
     [data-et-textedit] {
-      outline: 2px solid #4caf50 !important;
-      outline-offset: 1px !important;
+      outline: 2px solid #22c55e !important;
+      outline-offset: 2px !important;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.15) !important;
       cursor: text !important;
     }
 
@@ -149,20 +151,20 @@
     }
     .et-insert-point::before {
       content: ''; position: absolute; left: 15%; right: 15%;
-      height: 2px; background: rgba(245,132,56,0.15); top: 50%;
+      height: 2px; background: rgba(0,168,255,0.2); top: 50%;
     }
     .et-insert-plus {
-      width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(245,132,56,0.3);
-      background: rgba(10,10,10,0.7); color: #f58438;
+      width: 26px; height: 26px; border-radius: 50%; border: 2px solid rgba(0,168,255,0.35);
+      background: rgba(10,10,10,0.7); color: #00a8ff;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; font-weight: 700; line-height: 1;
       position: relative; z-index: 1; transition: all 0.2s;
       opacity: 0.5;
     }
     .et-insert-point:hover .et-insert-plus {
-      opacity: 1; transform: scale(1.15); border-color: #f58438;
-      background: #f58438; color: #fff;
-      box-shadow: 0 2px 12px rgba(245,132,56,0.4);
+      opacity: 1; transform: scale(1.15); border-color: #00a8ff;
+      background: #00a8ff; color: #fff;
+      box-shadow: 0 2px 12px rgba(0,168,255,0.4);
     }
 
     /* ── Floating toolbar ── */
