@@ -128,6 +128,11 @@
     .et-align-btns button:hover { color: #fff; border-color: #555; }
     .et-align-btns button.active { background: #f58438; border-color: #f58438; color: #fff; }
     .et-divider { border: none; border-top: 1px solid #222; margin: 12px 0; }
+    .et-section-label {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.25);
+      margin: 0 0 8px 0;
+    }
 
     .et-action-btn {
       width: 100%; padding: 8px 12px; margin-bottom: 7px;
@@ -340,7 +345,7 @@
           <div class="et-ctrl"><label class="et-ctrl-label">Left</label><input type="number" id="et-pl" min="0"/></div>
         </div>
       </div>
-      <hr class="et-divider"/>
+      <div style="margin-top:14px;">
       <div class="et-ctrl">
         <label class="et-ctrl-label">Margin (px)</label>
         <div class="et-row" style="margin-bottom:7px;">
@@ -352,7 +357,9 @@
           <div class="et-ctrl"><label class="et-ctrl-label">Left</label><input type="number" id="et-ml"/></div>
         </div>
       </div>
-      <hr class="et-divider"/>
+      </div>
+      <div style="margin-top:14px;">
+      <p class="et-section-label">Size</p>
       <div class="et-ctrl">
         <label class="et-ctrl-label">Width</label>
         <input type="text" id="et-width" placeholder="e.g. 100%, 480px, auto"/>
@@ -368,6 +375,7 @@
       <div class="et-ctrl">
         <label class="et-ctrl-label">Min Height</label>
         <input type="text" id="et-min-height" placeholder="e.g. 100vh, 200px"/>
+      </div>
       </div>
     </div>
 
@@ -392,7 +400,8 @@
           <input type="number" id="et-gap-n" min="0" max="300"/>
         </div>
       </div>
-      <hr class="et-divider"/>
+      <div style="margin-top:14px;">
+      <p class="et-section-label">Flex</p>
       <div class="et-ctrl">
         <label class="et-ctrl-label">Flex Direction</label>
         <select id="et-flex-dir">
@@ -435,7 +444,9 @@
           <option value="wrap-reverse">Wrap Reverse</option>
         </select>
       </div>
-      <hr class="et-divider"/>
+      </div>
+      <div style="margin-top:14px;">
+      <p class="et-section-label">Grid</p>
       <div class="et-ctrl">
         <label class="et-ctrl-label">Grid Template Columns</label>
         <input type="text" id="et-grid-cols" placeholder="e.g. 1fr 1fr, repeat(3,1fr)"/>
@@ -448,6 +459,7 @@
         <label class="et-ctrl-label">Grid Column (self)</label>
         <input type="text" id="et-grid-col-self" placeholder="e.g. span 2, 1 / 3"/>
       </div>
+      </div>
     </div>
 
     <!-- Actions -->
@@ -457,8 +469,8 @@
       </button>
 
       <!-- Link editing (shown when selected element is/contains <a>) -->
-      <div id="et-link-section" style="display:none;">
-        <hr class="et-divider"/>
+      <div id="et-link-section" style="display:none;margin-top:14px;">
+        <p class="et-section-label">Link</p>
         <div class="et-ctrl">
           <label class="et-ctrl-label">Link URL</label>
           <input type="text" id="et-link-href" placeholder="e.g. join.html or https://…"/>
@@ -491,20 +503,9 @@
         </div>
       </div>
 
-      <hr class="et-divider"/>
-      <button class="et-action-btn" id="et-act-up">
-        <span class="et-act-icon">↑</span> Move Up
-      </button>
-      <button class="et-action-btn" id="et-act-down">
-        <span class="et-act-icon">↓</span> Move Down
-      </button>
-      <button class="et-action-btn" id="et-act-dupe">
-        <span class="et-act-icon">⧉</span> Duplicate
-      </button>
-
       <!-- Image editing (shown when <img> is selected) -->
-      <div id="et-img-section" style="display:none;">
-        <hr class="et-divider"/>
+      <div id="et-img-section" style="display:none;margin-top:14px;">
+        <p class="et-section-label">Image</p>
         <div class="et-ctrl">
           <label class="et-ctrl-label">Image Source</label>
           <input type="text" id="et-img-src" style="opacity:0.65;" readonly/>
@@ -524,76 +525,90 @@
         <p id="et-img-replace-status" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:5px;"></p>
       </div>
 
-      <hr class="et-divider"/>
-      <button class="et-action-btn" id="et-act-add-img">
-        <span class="et-act-icon">🖼</span> Add Image
-      </button>
-      <div id="et-add-img-form" style="display:none;margin-top:7px;">
-        <div class="et-ctrl">
-          <label class="et-ctrl-label">Choose Image</label>
-          <label class="et-action-btn" style="margin-bottom:0;justify-content:center;cursor:pointer;" id="et-add-img-pick-label">
-            <span class="et-act-icon">📁</span> <span id="et-add-img-filename">Choose File…</span>
-          </label>
-          <input type="file" id="et-add-img-file" accept="image/*" style="display:none;"/>
-        </div>
-        <div class="et-ctrl">
-          <label class="et-ctrl-label">Alt Text</label>
-          <input type="text" id="et-add-img-alt" placeholder="Describe the image"/>
-        </div>
-        <div class="et-ctrl">
-          <label class="et-ctrl-label">Width</label>
-          <input type="text" id="et-add-img-width" placeholder="e.g. 100%, 400px" value="100%"/>
-        </div>
-        <button class="et-action-btn primary" id="et-add-img-upload">
-          <span class="et-act-icon">⬆</span> Upload & Insert
+      <div style="margin-top:16px;">
+        <p class="et-section-label">Arrange</p>
+        <button class="et-action-btn" id="et-act-up">
+          <span class="et-act-icon">↑</span> Move Up
         </button>
-        <p id="et-add-img-status" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:5px;"></p>
-      </div>
-
-      <hr class="et-divider"/>
-      <button class="et-action-btn" id="et-act-add-btn">
-        <span class="et-act-icon">➕</span> Add Button
-      </button>
-      <div id="et-add-btn-form" style="display:none;margin-top:7px;">
-        <div class="et-ctrl">
-          <label class="et-ctrl-label">Button Text</label>
-          <input type="text" id="et-new-btn-text" placeholder="e.g. Learn More" value="New Button"/>
-        </div>
-        <div class="et-ctrl">
-          <label class="et-ctrl-label">Link To</label>
-          <select id="et-new-btn-page">
-            <option value="#">— Select page —</option>
-            <option value="index.html">Home</option>
-            <option value="our-mission.html">Our Mission</option>
-            <option value="our-team.html">Our Team</option>
-            <option value="join.html">Join</option>
-            <option value="emerging-leaders.html">Emerging Leaders</option>
-            <option value="virtual-visits.html">Virtual Visits</option>
-            <option value="podcast.html">Podcast</option>
-            <option value="resource-hub.html">Resource Hub</option>
-            <option value="career-pathways.html">Career Pathways</option>
-            <option value="general-resources.html">General Resources</option>
-            <option value="recruitment-prep.html">Recruitment Prep</option>
-            <option value="energy-verticals.html">Energy Verticals</option>
-            <option value="energy-terminal.html">Energy Terminal</option>
-          </select>
-        </div>
-        <div class="et-ctrl">
-          <label class="et-ctrl-label">Style</label>
-          <select id="et-new-btn-style">
-            <option value="btn-primary">Primary (Orange Filled)</option>
-            <option value="btn-outline">Outline (Black Border)</option>
-            <option value="link-chip">Chip (Orange Border)</option>
-          </select>
-        </div>
-        <button class="et-action-btn primary" id="et-new-btn-insert">
-          <span class="et-act-icon">✓</span> Insert Button
+        <button class="et-action-btn" id="et-act-down">
+          <span class="et-act-icon">↓</span> Move Down
+        </button>
+        <button class="et-action-btn" id="et-act-dupe">
+          <span class="et-act-icon">⧉</span> Duplicate
         </button>
       </div>
 
-      <hr class="et-divider"/>
-      <button class="et-action-btn danger" id="et-act-del">
-        <span class="et-act-icon">🗑</span> Delete Element
+      <div style="margin-top:16px;">
+        <p class="et-section-label">Add</p>
+        <button class="et-action-btn" id="et-act-add-img">
+          <span class="et-act-icon">🖼</span> Add Image
+        </button>
+        <div id="et-add-img-form" style="display:none;margin-top:7px;">
+          <div class="et-ctrl">
+            <label class="et-ctrl-label">Choose Image</label>
+            <label class="et-action-btn" style="margin-bottom:0;justify-content:center;cursor:pointer;" id="et-add-img-pick-label">
+              <span class="et-act-icon">📁</span> <span id="et-add-img-filename">Choose File…</span>
+            </label>
+            <input type="file" id="et-add-img-file" accept="image/*" style="display:none;"/>
+          </div>
+          <div class="et-ctrl">
+            <label class="et-ctrl-label">Alt Text</label>
+            <input type="text" id="et-add-img-alt" placeholder="Describe the image"/>
+          </div>
+          <div class="et-ctrl">
+            <label class="et-ctrl-label">Width</label>
+            <input type="text" id="et-add-img-width" placeholder="e.g. 100%, 400px" value="100%"/>
+          </div>
+          <button class="et-action-btn primary" id="et-add-img-upload">
+            <span class="et-act-icon">⬆</span> Upload & Insert
+          </button>
+          <p id="et-add-img-status" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:5px;"></p>
+        </div>
+
+        <button class="et-action-btn" id="et-act-add-btn">
+          <span class="et-act-icon">➕</span> Add Button
+        </button>
+        <div id="et-add-btn-form" style="display:none;margin-top:7px;">
+          <div class="et-ctrl">
+            <label class="et-ctrl-label">Button Text</label>
+            <input type="text" id="et-new-btn-text" placeholder="e.g. Learn More" value="New Button"/>
+          </div>
+          <div class="et-ctrl">
+            <label class="et-ctrl-label">Link To</label>
+            <select id="et-new-btn-page">
+              <option value="#">— Select page —</option>
+              <option value="index.html">Home</option>
+              <option value="our-mission.html">Our Mission</option>
+              <option value="our-team.html">Our Team</option>
+              <option value="join.html">Join</option>
+              <option value="emerging-leaders.html">Emerging Leaders</option>
+              <option value="virtual-visits.html">Virtual Visits</option>
+              <option value="podcast.html">Podcast</option>
+              <option value="resource-hub.html">Resource Hub</option>
+              <option value="career-pathways.html">Career Pathways</option>
+              <option value="general-resources.html">General Resources</option>
+              <option value="recruitment-prep.html">Recruitment Prep</option>
+              <option value="energy-verticals.html">Energy Verticals</option>
+              <option value="energy-terminal.html">Energy Terminal</option>
+            </select>
+          </div>
+          <div class="et-ctrl">
+            <label class="et-ctrl-label">Style</label>
+            <select id="et-new-btn-style">
+              <option value="btn-primary">Primary (Orange Filled)</option>
+              <option value="btn-outline">Outline (Black Border)</option>
+              <option value="link-chip">Chip (Orange Border)</option>
+            </select>
+          </div>
+          <button class="et-action-btn primary" id="et-new-btn-insert">
+            <span class="et-act-icon">✓</span> Insert Button
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <button class="et-action-btn danger" id="et-act-del">
+          <span class="et-act-icon">🗑</span> Delete Element
       </button>
       <p class="et-help">Tip: Press <strong>Delete</strong> key to remove selected element. Press <strong>Esc</strong> to deselect.</p>
     </div>
