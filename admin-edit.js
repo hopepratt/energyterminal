@@ -159,6 +159,19 @@
       0%, 100% { border-color: rgba(0,168,255,0.5); }
       50% { border-color: #00a8ff; }
     }
+    .et-place-hint {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: #00a8ff; color: #fff; text-align: center;
+      padding: 10px 20px; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 600; z-index: 100000;
+      box-shadow: 0 4px 16px rgba(0,168,255,0.4);
+    }
+    .et-place-bar {
+      height: 3px; background: #00a8ff; position: absolute;
+      left: 0; right: 0; pointer-events: none; z-index: 99996;
+      box-shadow: 0 0 8px rgba(0,168,255,0.6);
+      transition: top 0.08s ease;
+    }
 
     /* ── Insert points ("+" between sections) ── */
     .et-insert-point {
@@ -743,7 +756,8 @@
   function isAdminEl(el) {
     return el.closest('#et-panel') || el.closest('#et-admin-bar') ||
            el.closest('#et-float-bar') || el.closest('#et-add-menu') ||
-           el.closest('.et-insert-point') || el.closest('.et-img-placeholder');
+           el.closest('.et-insert-point') || el.closest('.et-img-placeholder') ||
+           el.closest('.et-place-hint') || el.closest('.et-place-bar');
   }
 
   // ── Selection ─────────────────────────────────────────────────────────────
@@ -905,6 +919,7 @@
     // Reset forms
     v('et-add-btn-form').style.display = 'none';
     v('et-add-img-form').style.display = 'none';
+    if (typeof exitPlaceMode === 'function') exitPlaceMode();
     if (typeof removeImgPlaceholder === 'function') removeImgPlaceholder();
   }
 
@@ -1392,6 +1407,10 @@
 
   // ── Add image wiring ──────────────────────────────────────────────────────
   var imgPlaceholder = null;
+  var imgPlaceMode = false;
+  var placeHint = null;
+  var placeBar = null;
+  var placeTarget = null;
 
   function removeImgPlaceholder() {
     if (imgPlaceholder && imgPlaceholder.parentNode) {
@@ -1400,25 +1419,89 @@
     imgPlaceholder = null;
   }
 
-  v('et-act-add-img').addEventListener('click', function () {
-    var form = v('et-add-img-form');
-    var showing = form.style.display !== 'none';
-    if (showing) {
-      form.style.display = 'none';
-      removeImgPlaceholder();
-      return;
+  function exitPlaceMode() {
+    imgPlaceMode = false;
+    if (placeHint && placeHint.parentNode) placeHint.parentNode.removeChild(placeHint);
+    if (placeBar && placeBar.parentNode) placeBar.parentNode.removeChild(placeBar);
+    placeHint = null;
+    placeBar = null;
+    placeTarget = null;
+    document.removeEventListener('mousemove', placeMouseMove, true);
+    document.removeEventListener('click', placeClick, true);
+    document.removeEventListener('keydown', placeKeydown, true);
+  }
+
+  function placeMouseMove(e) {
+    var el = document.elementFromPoint(e.clientX, e.clientY);
+    if (!el || isAdminEl(el) || el.classList.contains('et-place-hint') ||
+        el.classList.contains('et-place-bar')) return;
+    while (el && el.parentNode && el.parentNode !== document.body &&
+           !el.parentNode.classList.contains('page-content') &&
+           el.parentNode.tagName !== 'MAIN' &&
+           el.parentNode.tagName !== 'SECTION') {
+      el = el.parentNode;
     }
-    form.style.display = 'block';
+    if (!el || el === document.documentElement || el === document.body) return;
+    placeTarget = el;
+    var rect = el.getBoundingClientRect();
+    var insertBefore = (e.clientY - rect.top) < rect.height / 2;
+    if (!placeBar) {
+      placeBar = document.createElement('div');
+      placeBar.className = 'et-place-bar';
+      document.body.appendChild(placeBar);
+    }
+    var barTop = insertBefore ? (rect.top + window.scrollY - 1) : (rect.bottom + window.scrollY - 1);
+    placeBar.style.top = barTop + 'px';
+    placeTarget._insertBefore = insertBefore;
+  }
+
+  function placeClick(e) {
+    if (isAdminEl(e.target) || !placeTarget) return;
+    e.preventDefault();
+    e.stopPropagation();
     removeImgPlaceholder();
     imgPlaceholder = document.createElement('div');
     imgPlaceholder.className = 'et-img-placeholder';
     imgPlaceholder.textContent = '📷 Image will be added here';
-    if (selectedEl) {
-      selectedEl.parentNode.insertBefore(imgPlaceholder, selectedEl.nextSibling);
+    if (placeTarget._insertBefore) {
+      placeTarget.parentNode.insertBefore(imgPlaceholder, placeTarget);
     } else {
-      (document.querySelector('.page-content') || document.querySelector('main') || document.body).appendChild(imgPlaceholder);
+      placeTarget.parentNode.insertBefore(imgPlaceholder, placeTarget.nextSibling);
     }
     imgPlaceholder.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    exitPlaceMode();
+    v('et-add-img-form').style.display = 'block';
+  }
+
+  function placeKeydown(e) {
+    if (e.key === 'Escape') {
+      exitPlaceMode();
+      v('et-add-img-form').style.display = 'none';
+    }
+  }
+
+  v('et-act-add-img').addEventListener('click', function () {
+    var form = v('et-add-img-form');
+    if (imgPlaceMode) {
+      exitPlaceMode();
+      form.style.display = 'none';
+      removeImgPlaceholder();
+      return;
+    }
+    if (form.style.display !== 'none') {
+      form.style.display = 'none';
+      removeImgPlaceholder();
+      return;
+    }
+    removeImgPlaceholder();
+    imgPlaceMode = true;
+    placeHint = document.createElement('div');
+    placeHint.className = 'et-place-hint';
+    placeHint.textContent = 'Click where you want to add the image (Esc to cancel)';
+    document.body.appendChild(placeHint);
+    document.addEventListener('mousemove', placeMouseMove, true);
+    document.addEventListener('click', placeClick, true);
+    document.addEventListener('keydown', placeKeydown, true);
   });
 
   v('et-add-img-pick-label').addEventListener('click', function (e) {
@@ -1502,7 +1585,10 @@
 
     // Remove admin elements so they don't appear in saved HTML
     removeInsertPoints();
+    exitPlaceMode();
     document.querySelectorAll('.et-img-placeholder').forEach(el => el.remove());
+    document.querySelectorAll('.et-place-hint').forEach(el => el.remove());
+    document.querySelectorAll('.et-place-bar').forEach(el => el.remove());
     imgPlaceholder = null;
     bar.remove();
     panel.remove();
