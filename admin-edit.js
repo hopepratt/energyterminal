@@ -144,6 +144,17 @@
     .et-act-icon { width: 16px; text-align: center; flex-shrink: 0; }
     .et-help { font-size: 0.68rem; color: rgba(255,255,255,0.3); line-height: 1.5; margin-top: 10px; }
 
+    .et-img-placeholder {
+      border: 2px dashed #00a8ff; background: rgba(0,168,255,0.06);
+      padding: 32px 20px; text-align: center; color: #00a8ff;
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+      animation: et-ph-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes et-ph-pulse {
+      0%, 100% { border-color: rgba(0,168,255,0.5); }
+      50% { border-color: #00a8ff; }
+    }
+
     /* ── Insert points ("+" between sections) ── */
     .et-insert-point {
       display: flex; align-items: center; justify-content: center;
@@ -717,7 +728,7 @@
   function isAdminEl(el) {
     return el.closest('#et-panel') || el.closest('#et-admin-bar') ||
            el.closest('#et-float-bar') || el.closest('#et-add-menu') ||
-           el.closest('.et-insert-point');
+           el.closest('.et-insert-point') || el.closest('.et-img-placeholder');
   }
 
   // ── Selection ─────────────────────────────────────────────────────────────
@@ -879,6 +890,7 @@
     // Reset forms
     v('et-add-btn-form').style.display = 'none';
     v('et-add-img-form').style.display = 'none';
+    if (typeof removeImgPlaceholder === 'function') removeImgPlaceholder();
   }
 
   function v(id) { return document.getElementById(id); }
@@ -1364,9 +1376,34 @@
   });
 
   // ── Add image wiring ──────────────────────────────────────────────────────
+  var imgPlaceholder = null;
+
+  function removeImgPlaceholder() {
+    if (imgPlaceholder && imgPlaceholder.parentNode) {
+      imgPlaceholder.parentNode.removeChild(imgPlaceholder);
+    }
+    imgPlaceholder = null;
+  }
+
   v('et-act-add-img').addEventListener('click', function () {
     var form = v('et-add-img-form');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    var showing = form.style.display !== 'none';
+    if (showing) {
+      form.style.display = 'none';
+      removeImgPlaceholder();
+      return;
+    }
+    form.style.display = 'block';
+    removeImgPlaceholder();
+    imgPlaceholder = document.createElement('div');
+    imgPlaceholder.className = 'et-img-placeholder';
+    imgPlaceholder.textContent = '📷 Image will be added here';
+    if (selectedEl) {
+      selectedEl.parentNode.insertBefore(imgPlaceholder, selectedEl.nextSibling);
+    } else {
+      (document.querySelector('.page-content') || document.querySelector('main') || document.body).appendChild(imgPlaceholder);
+    }
+    imgPlaceholder.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   v('et-add-img-pick-label').addEventListener('click', function (e) {
@@ -1388,6 +1425,7 @@
       return;
     }
     statusMsg.textContent = 'Uploading…';
+    if (imgPlaceholder) imgPlaceholder.textContent = '⬆ Uploading…';
     try {
       var filePath = await uploadImageToGitHub(fileInput.files[0]);
       var alt   = v('et-add-img-alt').value || '';
@@ -1398,10 +1436,13 @@
       img.style.width   = width;
       img.style.display = 'block';
 
-      if (selectedEl) {
+      if (imgPlaceholder && imgPlaceholder.parentNode) {
+        imgPlaceholder.parentNode.replaceChild(img, imgPlaceholder);
+        imgPlaceholder = null;
+      } else if (selectedEl) {
         selectedEl.parentNode.insertBefore(img, selectedEl.nextSibling);
       } else {
-        (document.querySelector('main') || document.querySelector('section') || document.body).appendChild(img);
+        (document.querySelector('.page-content') || document.querySelector('main') || document.body).appendChild(img);
       }
 
       statusMsg.textContent = 'Done ✓';
@@ -1416,6 +1457,7 @@
       select(img);
     } catch (e) {
       statusMsg.textContent = 'Error: ' + e.message;
+      if (imgPlaceholder) imgPlaceholder.textContent = '📷 Image will be added here';
     }
   });
 
@@ -1445,6 +1487,8 @@
 
     // Remove admin elements so they don't appear in saved HTML
     removeInsertPoints();
+    document.querySelectorAll('.et-img-placeholder').forEach(el => el.remove());
+    imgPlaceholder = null;
     bar.remove();
     panel.remove();
     floatBar.remove();
