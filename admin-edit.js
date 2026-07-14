@@ -159,19 +159,6 @@
       0%, 100% { border-color: rgba(0,168,255,0.5); }
       50% { border-color: #00a8ff; }
     }
-    .et-place-hint {
-      position: fixed; top: 0; left: 0; right: 0;
-      background: #00a8ff; color: #fff; text-align: center;
-      padding: 10px 20px; font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem; font-weight: 600; z-index: 100000;
-      box-shadow: 0 4px 16px rgba(0,168,255,0.4);
-    }
-    .et-place-bar {
-      height: 3px; background: #00a8ff; position: absolute;
-      left: 0; right: 0; pointer-events: none; z-index: 99996;
-      box-shadow: 0 0 8px rgba(0,168,255,0.6);
-      transition: top 0.08s ease;
-    }
 
     /* ── Insert points ("+" between sections) ── */
     .et-insert-point {
@@ -556,27 +543,8 @@
         <button class="et-action-btn" id="et-act-add-img">
           <span class="et-act-icon">🖼</span> Add Image
         </button>
-        <div id="et-add-img-form" style="display:none;margin-top:7px;">
-          <div class="et-ctrl">
-            <label class="et-ctrl-label">Choose Image</label>
-            <label class="et-action-btn" style="margin-bottom:0;justify-content:center;cursor:pointer;" id="et-add-img-pick-label">
-              <span class="et-act-icon">📁</span> <span id="et-add-img-filename">Choose File…</span>
-            </label>
-            <input type="file" id="et-add-img-file" accept="image/*" style="display:none;"/>
-          </div>
-          <div class="et-ctrl">
-            <label class="et-ctrl-label">Alt Text</label>
-            <input type="text" id="et-add-img-alt" placeholder="Describe the image"/>
-          </div>
-          <div class="et-ctrl">
-            <label class="et-ctrl-label">Width</label>
-            <input type="text" id="et-add-img-width" placeholder="e.g. 100%, 400px" value="100%"/>
-          </div>
-          <button class="et-action-btn primary" id="et-add-img-upload">
-            <span class="et-act-icon">⬆</span> Upload & Insert
-          </button>
-          <p id="et-add-img-status" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:5px;"></p>
-        </div>
+        <input type="file" id="et-panel-img-file" accept="image/*" style="display:none;"/>
+        <p id="et-panel-img-status" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:5px;"></p>
 
         <button class="et-action-btn" id="et-act-add-btn">
           <span class="et-act-icon">➕</span> Add Button
@@ -756,8 +724,7 @@
   function isAdminEl(el) {
     return el.closest('#et-panel') || el.closest('#et-admin-bar') ||
            el.closest('#et-float-bar') || el.closest('#et-add-menu') ||
-           el.closest('.et-insert-point') || el.closest('.et-img-placeholder') ||
-           el.closest('.et-place-hint') || el.closest('.et-place-bar');
+           el.closest('.et-insert-point') || el.closest('.et-img-placeholder');
   }
 
   // ── Selection ─────────────────────────────────────────────────────────────
@@ -918,8 +885,6 @@
 
     // Reset forms
     v('et-add-btn-form').style.display = 'none';
-    v('et-add-img-form').style.display = 'none';
-    if (typeof exitPlaceMode === 'function') exitPlaceMode();
     if (typeof removeImgPlaceholder === 'function') removeImgPlaceholder();
   }
 
@@ -1407,10 +1372,6 @@
 
   // ── Add image wiring ──────────────────────────────────────────────────────
   var imgPlaceholder = null;
-  var imgPlaceMode = false;
-  var placeHint = null;
-  var placeBar = null;
-  var placeTarget = null;
 
   function removeImgPlaceholder() {
     if (imgPlaceholder && imgPlaceholder.parentNode) {
@@ -1419,144 +1380,50 @@
     imgPlaceholder = null;
   }
 
-  function exitPlaceMode() {
-    imgPlaceMode = false;
-    if (placeHint && placeHint.parentNode) placeHint.parentNode.removeChild(placeHint);
-    if (placeBar && placeBar.parentNode) placeBar.parentNode.removeChild(placeBar);
-    placeHint = null;
-    placeBar = null;
-    placeTarget = null;
-    document.removeEventListener('mousemove', placeMouseMove, true);
-    document.removeEventListener('click', placeClick, true);
-    document.removeEventListener('keydown', placeKeydown, true);
-  }
+  v('et-act-add-img').addEventListener('click', function () {
+    v('et-panel-img-file').click();
+  });
 
-  function placeMouseMove(e) {
-    var el = document.elementFromPoint(e.clientX, e.clientY);
-    if (!el || isAdminEl(el) || el.classList.contains('et-place-hint') ||
-        el.classList.contains('et-place-bar')) return;
-    while (el && el.parentNode && el.parentNode !== document.body &&
-           !el.parentNode.classList.contains('page-content') &&
-           el.parentNode.tagName !== 'MAIN' &&
-           el.parentNode.tagName !== 'SECTION') {
-      el = el.parentNode;
-    }
-    if (!el || el === document.documentElement || el === document.body) return;
-    placeTarget = el;
-    var rect = el.getBoundingClientRect();
-    var insertBefore = (e.clientY - rect.top) < rect.height / 2;
-    if (!placeBar) {
-      placeBar = document.createElement('div');
-      placeBar.className = 'et-place-bar';
-      document.body.appendChild(placeBar);
-    }
-    var barTop = insertBefore ? (rect.top + window.scrollY - 1) : (rect.bottom + window.scrollY - 1);
-    placeBar.style.top = barTop + 'px';
-    placeTarget._insertBefore = insertBefore;
-  }
+  v('et-panel-img-file').addEventListener('change', async function () {
+    if (!this.files.length) return;
+    var statusMsg = v('et-panel-img-status');
+    var insertAfter = selectedEl;
 
-  function placeClick(e) {
-    if (isAdminEl(e.target) || !placeTarget) return;
-    e.preventDefault();
-    e.stopPropagation();
     removeImgPlaceholder();
     imgPlaceholder = document.createElement('div');
     imgPlaceholder.className = 'et-img-placeholder';
-    imgPlaceholder.textContent = '📷 Image will be added here';
-    if (placeTarget._insertBefore) {
-      placeTarget.parentNode.insertBefore(imgPlaceholder, placeTarget);
+    imgPlaceholder.textContent = '⬆ Uploading image…';
+    if (insertAfter) {
+      insertAfter.parentNode.insertBefore(imgPlaceholder, insertAfter.nextSibling);
     } else {
-      placeTarget.parentNode.insertBefore(imgPlaceholder, placeTarget.nextSibling);
+      (document.querySelector('.page-content') || document.querySelector('main') || document.body).appendChild(imgPlaceholder);
     }
     imgPlaceholder.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    exitPlaceMode();
-    v('et-add-img-form').style.display = 'block';
-  }
 
-  function placeKeydown(e) {
-    if (e.key === 'Escape') {
-      exitPlaceMode();
-      v('et-add-img-form').style.display = 'none';
-    }
-  }
-
-  v('et-act-add-img').addEventListener('click', function () {
-    var form = v('et-add-img-form');
-    if (imgPlaceMode) {
-      exitPlaceMode();
-      form.style.display = 'none';
-      removeImgPlaceholder();
-      return;
-    }
-    if (form.style.display !== 'none') {
-      form.style.display = 'none';
-      removeImgPlaceholder();
-      return;
-    }
-    removeImgPlaceholder();
-    imgPlaceMode = true;
-    placeHint = document.createElement('div');
-    placeHint.className = 'et-place-hint';
-    placeHint.textContent = 'Click where you want to add the image (Esc to cancel)';
-    document.body.appendChild(placeHint);
-    document.addEventListener('mousemove', placeMouseMove, true);
-    document.addEventListener('click', placeClick, true);
-    document.addEventListener('keydown', placeKeydown, true);
-  });
-
-  v('et-add-img-pick-label').addEventListener('click', function (e) {
-    e.preventDefault();
-    v('et-add-img-file').click();
-  });
-
-  v('et-add-img-file').addEventListener('change', function () {
-    if (this.files.length) {
-      v('et-add-img-filename').textContent = this.files[0].name;
-    }
-  });
-
-  v('et-add-img-upload').addEventListener('click', async function () {
-    var fileInput = v('et-add-img-file');
-    var statusMsg = v('et-add-img-status');
-    if (!fileInput.files.length) {
-      statusMsg.textContent = 'Choose an image first.';
-      return;
-    }
     statusMsg.textContent = 'Uploading…';
-    if (imgPlaceholder) imgPlaceholder.textContent = '⬆ Uploading…';
     try {
-      var filePath = await uploadImageToGitHub(fileInput.files[0]);
-      var alt   = v('et-add-img-alt').value || '';
-      var width = v('et-add-img-width').value || '100%';
-      var img   = document.createElement('img');
-      img.src   = filePath;
-      img.alt   = alt;
-      img.style.width   = width;
+      var filePath = await uploadImageToGitHub(this.files[0]);
+      var img = document.createElement('img');
+      img.src = filePath;
+      img.alt = '';
+      img.style.width = '100%';
+      img.style.maxWidth = '600px';
       img.style.display = 'block';
+      img.style.margin = '20px auto';
 
       if (imgPlaceholder && imgPlaceholder.parentNode) {
         imgPlaceholder.parentNode.replaceChild(img, imgPlaceholder);
         imgPlaceholder = null;
-      } else if (selectedEl) {
-        selectedEl.parentNode.insertBefore(img, selectedEl.nextSibling);
-      } else {
-        (document.querySelector('.page-content') || document.querySelector('main') || document.body).appendChild(img);
       }
 
-      statusMsg.textContent = 'Done ✓';
-      setTimeout(function () {
-        v('et-add-img-form').style.display = 'none';
-        statusMsg.textContent = '';
-        v('et-add-img-filename').textContent = 'Choose File…';
-        fileInput.value = '';
-        v('et-add-img-alt').value   = '';
-        v('et-add-img-width').value = '100%';
-      }, 1200);
+      statusMsg.textContent = 'Added ✓  Use Move Up/Down to reposition';
+      setTimeout(function () { statusMsg.textContent = ''; }, 4000);
       select(img);
     } catch (e) {
       statusMsg.textContent = 'Error: ' + e.message;
-      if (imgPlaceholder) imgPlaceholder.textContent = '📷 Image will be added here';
+      removeImgPlaceholder();
     }
+    this.value = '';
   });
 
   // ── Save to GitHub ────────────────────────────────────────────────────────
@@ -1585,10 +1452,7 @@
 
     // Remove admin elements so they don't appear in saved HTML
     removeInsertPoints();
-    exitPlaceMode();
     document.querySelectorAll('.et-img-placeholder').forEach(el => el.remove());
-    document.querySelectorAll('.et-place-hint').forEach(el => el.remove());
-    document.querySelectorAll('.et-place-bar').forEach(el => el.remove());
     imgPlaceholder = null;
     bar.remove();
     panel.remove();
