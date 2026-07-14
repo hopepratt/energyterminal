@@ -230,6 +230,108 @@
       background: rgba(245,132,56,0.12); color: #f58438;
     }
     #et-add-menu button .et-am-icon { width: 18px; text-align: center; font-size: 14px; }
+
+    #et-btn-nav { background: #1a1a2e; color: #fff; }
+    #et-btn-nav:hover { background: #2d2d50; }
+
+    #et-nav-modal {
+      display:none; position:fixed; inset:0; z-index:100001;
+      background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);
+      font-family:'DM Sans',sans-serif;
+      align-items:flex-start; justify-content:center; padding-top:40px;
+    }
+    #et-nav-modal.open { display:flex; }
+    .et-nm-inner {
+      background:#111; border:1px solid #2a2a2a; border-radius:8px;
+      width:540px; max-height:calc(100vh - 80px); overflow-y:auto;
+      color:#f5f4f0; box-shadow:0 16px 64px rgba(0,0,0,0.6);
+    }
+    .et-nm-head {
+      padding:16px 20px; border-bottom:1px solid #222;
+      display:flex; align-items:center; justify-content:space-between;
+      position:sticky; top:0; background:#0a0a0a; z-index:1; border-radius:8px 8px 0 0;
+    }
+    .et-nm-head h2 { font-size:0.88rem; font-weight:700; color:#f58438; margin:0; }
+    .et-nm-close {
+      background:none; border:none; color:rgba(255,255,255,0.4);
+      cursor:pointer; font-size:1.4rem; padding:0; line-height:1;
+    }
+    .et-nm-close:hover { color:#fff; }
+    .et-nm-body { padding:16px 20px; }
+    .et-nm-cat {
+      border:1px solid #2a2a2a; border-radius:6px; margin-bottom:14px;
+      background:#0d0d0d; overflow:hidden;
+    }
+    .et-nm-cat-head {
+      padding:10px 12px; background:#0a0a0a; border-bottom:1px solid #222;
+      display:flex; gap:8px; align-items:center;
+    }
+    .et-nm-cat-head input {
+      background:#1a1a1a; border:1px solid #2a2a2a; color:#f5f4f0;
+      padding:5px 8px; font-family:inherit; font-size:0.78rem;
+      border-radius:3px; outline:none;
+    }
+    .et-nm-cat-head input:focus { border-color:#f58438; }
+    .et-nm-lbl {
+      font-size:0.58rem; font-weight:700; letter-spacing:0.1em;
+      text-transform:uppercase; color:rgba(255,255,255,0.3); flex-shrink:0;
+    }
+    .et-nm-cat-del {
+      background:none; border:none; color:rgba(255,255,255,0.2);
+      cursor:pointer; font-size:0.9rem; margin-left:auto; padding:2px 6px;
+    }
+    .et-nm-cat-del:hover { color:#ff6b6b; }
+    .et-nm-items { padding:6px 8px; }
+    .et-nm-item { padding:8px 6px; border-bottom:1px solid #1a1a1a; }
+    .et-nm-item:last-child { border-bottom:none; }
+    .et-nm-item-row { display:flex; gap:6px; align-items:center; margin-bottom:4px; }
+    .et-nm-item input, .et-nm-item select {
+      background:#1a1a1a; border:1px solid #2a2a2a; color:#f5f4f0;
+      padding:4px 7px; font-family:inherit; font-size:0.72rem;
+      border-radius:3px; outline:none;
+    }
+    .et-nm-item input:focus, .et-nm-item select:focus { border-color:#f58438; }
+    .et-nm-item-btns { display:flex; gap:1px; flex-shrink:0; }
+    .et-nm-item-btns button {
+      background:none; border:none; color:rgba(255,255,255,0.25);
+      cursor:pointer; padding:3px 5px; font-size:0.7rem; border-radius:3px;
+    }
+    .et-nm-item-btns button:hover { color:#fff; background:rgba(255,255,255,0.08); }
+    .et-nm-item-btns .et-nib-del:hover { color:#ff6b6b; }
+    .et-nm-add-item { padding:4px 8px 8px; }
+    .et-nm-add-item button, .et-nm-add-cat button {
+      background:none; border:1px dashed #333; color:rgba(255,255,255,0.3);
+      cursor:pointer; padding:6px 12px; border-radius:4px;
+      font-family:inherit; font-size:0.72rem; font-weight:600; width:100%;
+      transition:all 0.15s;
+    }
+    .et-nm-add-item button:hover, .et-nm-add-cat button:hover {
+      border-color:#f58438; color:#f58438;
+    }
+    .et-nm-add-cat { margin-bottom:14px; }
+    .et-nm-cta {
+      border:1px solid #2a2a2a; border-radius:6px; padding:12px;
+      margin-bottom:14px; background:#0d0d0d;
+    }
+    .et-nm-cta-row { display:flex; gap:8px; margin-top:6px; }
+    .et-nm-cta-row input {
+      background:#1a1a1a; border:1px solid #2a2a2a; color:#f5f4f0;
+      padding:5px 8px; font-family:inherit; font-size:0.78rem;
+      border-radius:3px; outline:none; flex:1;
+    }
+    .et-nm-cta-row input:focus { border-color:#f58438; }
+    #et-nav-save {
+      width:100%; padding:12px; background:#f58438; border:none; color:#fff;
+      font-family:inherit; font-size:0.82rem; font-weight:700;
+      letter-spacing:0.06em; cursor:pointer; border-radius:4px;
+      transition:background 0.2s;
+    }
+    #et-nav-save:hover { background:#d96e20; }
+    #et-nav-save:disabled { background:#555; cursor:not-allowed; }
+    #et-nav-status {
+      font-size:0.72rem; color:rgba(255,255,255,0.5);
+      text-align:center; min-height:16px; margin-top:8px;
+    }
   `;
   document.head.appendChild(adminStyle);
 
@@ -240,6 +342,7 @@
     <span class="et-label">⚡ Admin</span>
     <button id="et-btn-edit">Edit Page</button>
     <button id="et-btn-save">Save to GitHub</button>
+    <button id="et-btn-nav">Edit Nav</button>
     <span id="et-status"></span>
     <button id="et-btn-logout">Logout</button>
   `;
@@ -724,7 +827,8 @@
   function isAdminEl(el) {
     return el.closest('#et-panel') || el.closest('#et-admin-bar') ||
            el.closest('#et-float-bar') || el.closest('#et-add-menu') ||
-           el.closest('.et-insert-point') || el.closest('.et-img-placeholder');
+           el.closest('.et-insert-point') || el.closest('.et-img-placeholder') ||
+           el.closest('#et-nav-modal');
   }
 
   // ── Selection ─────────────────────────────────────────────────────────────
@@ -1523,5 +1627,381 @@
   function setStatus(msg, clearAfter) {
     statusEl.textContent = msg;
     if (clearAfter) setTimeout(() => { statusEl.textContent = ''; }, clearAfter);
+  }
+
+  // ── Nav Editor ──────────────────────────────────────────────────────────────
+  var SITE_PAGES = [
+    { value: 'index.html', label: 'Home' },
+    { value: 'our-mission.html', label: 'Our Mission' },
+    { value: 'our-team.html', label: 'Our Team' },
+    { value: 'join.html', label: 'Join' },
+    { value: 'emerging-leaders.html', label: 'Emerging Leaders' },
+    { value: 'virtual-visits.html', label: 'Virtual Visits' },
+    { value: 'podcast.html', label: 'Podcast' },
+    { value: 'resource-hub.html', label: 'Resource Hub' },
+    { value: 'career-pathways.html', label: 'Career Pathways' },
+    { value: 'general-resources.html', label: 'General Resources' },
+    { value: 'recruitment-prep.html', label: 'Recruitment Prep' },
+    { value: 'energy-verticals.html', label: 'Energy Verticals' },
+    { value: 'energy-terminal.html', label: 'Energy Terminal' }
+  ];
+
+  var NAV_SYNC_PAGES = [
+    'index.html', 'our-mission.html', 'our-team.html', 'join.html',
+    'emerging-leaders.html', 'virtual-visits.html', 'podcast.html',
+    'resource-hub.html', 'career-pathways.html', 'general-resources.html',
+    'recruitment-prep.html', 'energy-verticals.html', 'energy-terminal.html'
+  ];
+
+  var navModal = document.createElement('div');
+  navModal.id = 'et-nav-modal';
+  navModal.innerHTML = '<div class="et-nm-inner">' +
+    '<div class="et-nm-head"><h2>Navigation Editor</h2>' +
+    '<button class="et-nm-close" title="Close">×</button></div>' +
+    '<div class="et-nm-body"></div></div>';
+  document.body.appendChild(navModal);
+
+  navModal.addEventListener('click', function (e) {
+    if (e.target === navModal) navModal.classList.remove('open');
+  });
+  navModal.querySelector('.et-nm-close').addEventListener('click', function () {
+    navModal.classList.remove('open');
+  });
+
+  document.getElementById('et-btn-nav').addEventListener('click', function () {
+    var data = parseNavData();
+    navModal.querySelector('.et-nm-body').innerHTML = renderNavEditor(data);
+    navModal.classList.add('open');
+    wireNavEditorEvents();
+  });
+
+  function escNav(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escNavAttr(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function parseNavData() {
+    var data = { categories: [], cta: { label: 'Join ET', href: 'join.html' } };
+    var navLinks = document.querySelector('.nav-links');
+    if (!navLinks) return data;
+
+    navLinks.querySelectorAll(':scope > li').forEach(function (li) {
+      var anchor = li.querySelector(':scope > a');
+      if (!anchor) return;
+
+      if (anchor.classList.contains('nav-cta')) {
+        data.cta = { label: anchor.textContent.trim(), href: anchor.getAttribute('href') || 'join.html' };
+        return;
+      }
+
+      var dropMenu = li.querySelector('.dropdown-menu');
+      if (!dropMenu) return;
+
+      var catName = '';
+      for (var i = 0; i < anchor.childNodes.length; i++) {
+        if (anchor.childNodes[i].nodeType === 3) catName += anchor.childNodes[i].textContent;
+      }
+      catName = catName.trim();
+
+      var sectionLabel = '';
+      var sl = dropMenu.querySelector('.dropdown-section-label');
+      if (sl) sectionLabel = sl.textContent.trim();
+
+      var items = [];
+      dropMenu.querySelectorAll('a').forEach(function (a) {
+        var iconEl = a.querySelector('.d-icon');
+        var strongEl = a.querySelector('strong');
+        var descEl = a.querySelector('.d-desc');
+        items.push({
+          icon: iconEl ? iconEl.textContent.trim() : '',
+          label: strongEl ? strongEl.textContent.trim() : a.textContent.trim(),
+          desc: descEl ? descEl.textContent.trim() : '',
+          href: a.getAttribute('href') || '#'
+        });
+      });
+
+      data.categories.push({ name: catName, sectionLabel: sectionLabel, items: items });
+    });
+
+    return data;
+  }
+
+  function buildPageOptions(selected) {
+    var html = '<option value=""' + (!selected ? ' selected' : '') + '>Custom URL</option>';
+    SITE_PAGES.forEach(function (p) {
+      html += '<option value="' + escNavAttr(p.value) + '"' +
+        (selected === p.value ? ' selected' : '') + '>' + escNav(p.label) + '</option>';
+    });
+    return html;
+  }
+
+  function renderNavItemHTML(item) {
+    var isKnown = SITE_PAGES.some(function (p) { return p.value === item.href; });
+    var h = '<div class="et-nm-item">';
+    h += '<div class="et-nm-item-row">';
+    h += '<input type="text" class="et-nm-icon-in" value="' + escNavAttr(item.icon) + '" placeholder="🎯" style="width:36px;text-align:center;"/>';
+    h += '<input type="text" class="et-nm-label-in" value="' + escNavAttr(item.label) + '" placeholder="Link name" style="flex:1;"/>';
+    h += '<div class="et-nm-item-btns">';
+    h += '<button class="et-nib-up" title="Move up">↑</button>';
+    h += '<button class="et-nib-down" title="Move down">↓</button>';
+    h += '<button class="et-nib-del" title="Remove">✕</button>';
+    h += '</div></div>';
+    h += '<div class="et-nm-item-row">';
+    h += '<input type="text" class="et-nm-desc-in" value="' + escNavAttr(item.desc) + '" placeholder="Short description" style="flex:1;"/>';
+    h += '</div>';
+    h += '<div class="et-nm-item-row">';
+    h += '<select class="et-nm-link-sel" style="flex:1;">' + buildPageOptions(isKnown ? item.href : '') + '</select>';
+    h += '<input type="text" class="et-nm-link-custom" value="' + escNavAttr(item.href) + '" placeholder="https://..." style="flex:1;' + (isKnown ? 'display:none;' : '') + '"/>';
+    h += '</div></div>';
+    return h;
+  }
+
+  function renderNavEditor(data) {
+    var html = '';
+
+    data.categories.forEach(function (cat) {
+      html += '<div class="et-nm-cat">';
+      html += '<div class="et-nm-cat-head">';
+      html += '<span class="et-nm-lbl">Menu</span>';
+      html += '<input type="text" class="et-nm-cat-name" value="' + escNavAttr(cat.name) + '" style="flex:1;"/>';
+      html += '<span class="et-nm-lbl">Label</span>';
+      html += '<input type="text" class="et-nm-sec-label" value="' + escNavAttr(cat.sectionLabel) + '" style="width:100px;"/>';
+      html += '<button class="et-nm-cat-del" title="Remove menu">✕</button>';
+      html += '</div>';
+      html += '<div class="et-nm-items">';
+      cat.items.forEach(function (item) { html += renderNavItemHTML(item); });
+      html += '</div>';
+      html += '<div class="et-nm-add-item"><button class="et-nm-add-link">+ Add Link</button></div>';
+      html += '</div>';
+    });
+
+    html += '<div class="et-nm-add-cat"><button class="et-nm-add-menu">+ Add Menu</button></div>';
+
+    html += '<div class="et-nm-cta">';
+    html += '<span class="et-nm-lbl">CTA Button</span>';
+    html += '<div class="et-nm-cta-row">';
+    html += '<input type="text" class="et-nm-cta-text" value="' + escNavAttr(data.cta.label) + '" placeholder="Button text"/>';
+    html += '<input type="text" class="et-nm-cta-href" value="' + escNavAttr(data.cta.href) + '" placeholder="Link"/>';
+    html += '</div></div>';
+
+    html += '<button id="et-nav-save">Save Nav to All Pages</button>';
+    html += '<div id="et-nav-status"></div>';
+
+    return html;
+  }
+
+  function wireNavEditorEvents() {
+    var body = navModal.querySelector('.et-nm-body');
+
+    body.addEventListener('click', function (e) {
+      var btn = e.target.closest('button');
+      if (!btn) return;
+
+      if (btn.id === 'et-nav-save') { saveNavToAllPages(); return; }
+
+      if (btn.classList.contains('et-nm-cat-del')) {
+        var cat = btn.closest('.et-nm-cat');
+        if (cat && confirm('Remove this menu?')) cat.remove();
+      }
+      else if (btn.classList.contains('et-nib-del')) {
+        var item = btn.closest('.et-nm-item');
+        if (item) item.remove();
+      }
+      else if (btn.classList.contains('et-nib-up')) {
+        var item = btn.closest('.et-nm-item');
+        var prev = item ? item.previousElementSibling : null;
+        if (prev && prev.classList.contains('et-nm-item'))
+          item.parentNode.insertBefore(item, prev);
+      }
+      else if (btn.classList.contains('et-nib-down')) {
+        var item = btn.closest('.et-nm-item');
+        var next = item ? item.nextElementSibling : null;
+        if (next && next.classList.contains('et-nm-item'))
+          item.parentNode.insertBefore(next, item);
+      }
+      else if (btn.classList.contains('et-nm-add-link')) {
+        var items = btn.closest('.et-nm-cat').querySelector('.et-nm-items');
+        var tmp = document.createElement('div');
+        tmp.innerHTML = renderNavItemHTML({ icon: '', label: '', desc: '', href: '' });
+        items.appendChild(tmp.firstChild);
+      }
+      else if (btn.classList.contains('et-nm-add-menu')) {
+        var addBtn = btn.closest('.et-nm-add-cat');
+        var catHTML = '<div class="et-nm-cat">';
+        catHTML += '<div class="et-nm-cat-head">';
+        catHTML += '<span class="et-nm-lbl">Menu</span>';
+        catHTML += '<input type="text" class="et-nm-cat-name" value="" placeholder="Menu name" style="flex:1;"/>';
+        catHTML += '<span class="et-nm-lbl">Label</span>';
+        catHTML += '<input type="text" class="et-nm-sec-label" value="" placeholder="Section label" style="width:100px;"/>';
+        catHTML += '<button class="et-nm-cat-del" title="Remove menu">✕</button>';
+        catHTML += '</div>';
+        catHTML += '<div class="et-nm-items">';
+        catHTML += renderNavItemHTML({ icon: '', label: '', desc: '', href: '' });
+        catHTML += '</div>';
+        catHTML += '<div class="et-nm-add-item"><button class="et-nm-add-link">+ Add Link</button></div>';
+        catHTML += '</div>';
+        var tmp = document.createElement('div');
+        tmp.innerHTML = catHTML;
+        addBtn.parentNode.insertBefore(tmp.firstChild, addBtn);
+      }
+    });
+
+    body.addEventListener('change', function (e) {
+      if (e.target.classList.contains('et-nm-link-sel')) {
+        var row = e.target.closest('.et-nm-item-row');
+        var custom = row.querySelector('.et-nm-link-custom');
+        if (e.target.value) {
+          custom.style.display = 'none';
+          custom.value = e.target.value;
+        } else {
+          custom.style.display = '';
+          custom.value = '';
+          custom.focus();
+        }
+      }
+    });
+  }
+
+  function collectNavData() {
+    var body = navModal.querySelector('.et-nm-body');
+    var data = { categories: [], cta: { label: 'Join ET', href: 'join.html' } };
+
+    body.querySelectorAll('.et-nm-cat').forEach(function (catEl) {
+      var name = catEl.querySelector('.et-nm-cat-name').value.trim();
+      var sectionLabel = catEl.querySelector('.et-nm-sec-label').value.trim();
+      var items = [];
+
+      catEl.querySelectorAll('.et-nm-item').forEach(function (itemEl) {
+        var icon = itemEl.querySelector('.et-nm-icon-in').value.trim();
+        var label = itemEl.querySelector('.et-nm-label-in').value.trim();
+        var desc = itemEl.querySelector('.et-nm-desc-in').value.trim();
+        var sel = itemEl.querySelector('.et-nm-link-sel');
+        var custom = itemEl.querySelector('.et-nm-link-custom');
+        var href = sel.value || custom.value.trim() || '#';
+        if (label) items.push({ icon: icon, label: label, desc: desc, href: href });
+      });
+
+      if (name && items.length) data.categories.push({ name: name, sectionLabel: sectionLabel, items: items });
+    });
+
+    var ctaText = body.querySelector('.et-nm-cta-text');
+    var ctaHref = body.querySelector('.et-nm-cta-href');
+    if (ctaText) data.cta.label = ctaText.value.trim() || 'Join ET';
+    if (ctaHref) data.cta.href = ctaHref.value.trim() || 'join.html';
+
+    return data;
+  }
+
+  function buildNavHTML(data) {
+    var h = '<nav>\n';
+    h += '  <a href="index.html" class="nav-logo-text">Energy Terminal</a>\n';
+    h += '  <ul class="nav-links">\n';
+
+    data.categories.forEach(function (cat) {
+      h += '    <li class="dropdown">\n';
+      h += '      <a href="#">' + escNav(cat.name) + ' <span class="chevron">▾</span></a>\n';
+      h += '      <div class="dropdown-menu">\n';
+      h += '        <div class="dropdown-section-label">' + escNav(cat.sectionLabel) + '</div>\n';
+      cat.items.forEach(function (item) {
+        h += '        <a href="' + escNavAttr(item.href) + '"><span class="d-icon">' + item.icon + '</span><span><strong>' + escNav(item.label) + '</strong><span class="d-desc">' + escNav(item.desc) + '</span></span></a>\n';
+      });
+      h += '      </div>\n';
+      h += '    </li>\n';
+    });
+
+    h += '    <li><a href="' + escNavAttr(data.cta.href) + '" class="nav-cta">' + escNav(data.cta.label) + '</a></li>\n';
+    h += '  </ul>\n';
+    h += '  <div class="hamburger"><span></span><span></span><span></span></div>\n';
+    h += '</nav>';
+
+    return h;
+  }
+
+  async function saveNavToAllPages() {
+    var cfg = getGhConfig();
+    if (!cfg.token || !cfg.owner || !cfg.repo) {
+      alert('GitHub not configured. Open admin.html → Settings.');
+      return;
+    }
+
+    var saveBtn = document.getElementById('et-nav-save');
+    var navStatus = document.getElementById('et-nav-status');
+    saveBtn.disabled = true;
+
+    var data = collectNavData();
+    var newNavHTML = buildNavHTML(data);
+    var branch = cfg.branch || 'main';
+    var headers = {
+      'Authorization': 'token ' + cfg.token,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+
+    var total = NAV_SYNC_PAGES.length;
+    var done = 0;
+    var errors = [];
+
+    for (var i = 0; i < NAV_SYNC_PAGES.length; i++) {
+      var page = NAV_SYNC_PAGES[i];
+      navStatus.textContent = 'Updating ' + page + ' (' + (i + 1) + '/' + total + ')...';
+
+      try {
+        var apiUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + page;
+        var getRes = await fetch(apiUrl + '?ref=' + branch, { headers: headers, cache: 'no-store' });
+        if (!getRes.ok) { errors.push(page + ': fetch failed'); continue; }
+        var fileData = await getRes.json();
+
+        var raw = fileData.content.replace(/\n/g, '');
+        var content = decodeURIComponent(escape(atob(raw)));
+
+        // Replace first <nav>...</nav>
+        var replaced = false;
+        content = content.replace(/<nav[^>]*>[\s\S]*?<\/nav>/, function () {
+          if (replaced) return arguments[0];
+          replaced = true;
+          return newNavHTML;
+        });
+
+        // Strip serialized mobile nav artifacts from admin saves
+        content = content.replace(/<div class="mob-overlay"[^>]*><\/div>/g, '');
+        content = content.replace(/<nav class="mob-nav"[\s\S]*?<\/nav>/g, '');
+
+        var encoded = btoa(unescape(encodeURIComponent(content)));
+
+        var putRes = await fetch(apiUrl, {
+          method: 'PUT', headers: headers,
+          body: JSON.stringify({
+            message: 'Update nav in ' + page + ' via ET admin',
+            content: encoded,
+            sha: fileData.sha,
+            branch: branch
+          })
+        });
+
+        if (!putRes.ok) {
+          var err = await putRes.json();
+          errors.push(page + ': ' + (err.message || putRes.status));
+        } else {
+          done++;
+        }
+
+        if (i < NAV_SYNC_PAGES.length - 1) {
+          await new Promise(function (r) { setTimeout(r, 350); });
+        }
+      } catch (e) {
+        errors.push(page + ': ' + e.message);
+      }
+    }
+
+    saveBtn.disabled = false;
+
+    if (errors.length === 0) {
+      navStatus.textContent = 'Nav updated on all ' + done + ' pages! Reloading...';
+      setTimeout(function () { location.reload(); }, 1500);
+    } else {
+      navStatus.textContent = done + '/' + total + ' updated. Errors: ' + errors.join('; ');
+    }
   }
 })();
