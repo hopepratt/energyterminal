@@ -206,6 +206,34 @@
       width: 1px; height: 18px; background: #333; margin: 0 2px; flex-shrink: 0;
     }
 
+    #et-link-popover {
+      position: absolute; z-index: 100002;
+      background: #0a0a0a; border: 1px solid #333; border-radius: 8px;
+      padding: 10px 12px; display: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+      font-family: 'DM Sans', sans-serif;
+    }
+    #et-link-popover .et-lp-row {
+      display: flex; align-items: center; gap: 6px;
+    }
+    #et-link-popover input {
+      background: #1a1a1a; border: 1px solid #2a2a2a; color: #f5f4f0;
+      padding: 7px 10px; font-family: inherit; font-size: 0.8rem;
+      border-radius: 4px; outline: none; width: 240px;
+    }
+    #et-link-popover input:focus { border-color: #f58438; }
+    #et-link-popover button {
+      border: none; cursor: pointer; border-radius: 4px;
+      font-family: inherit; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.05em; padding: 7px 12px; transition: background 0.15s;
+    }
+    #et-lp-apply { background: #f58438; color: #fff; }
+    #et-lp-apply:hover { background: #d96e20; }
+    #et-lp-remove { background: #1a1a1a; color: #ff6b6b; border: 1px solid #2a2a2a !important; }
+    #et-lp-remove:hover { background: #2d0a0a; }
+    #et-lp-cancel { background: #1a1a1a; color: rgba(255,255,255,0.5); }
+    #et-lp-cancel:hover { color: #fff; }
+
     /* ── Add menu ── */
     #et-add-menu {
       position: absolute; z-index: 100000;
@@ -704,6 +732,7 @@
   floatBar.id = 'et-float-bar';
   floatBar.innerHTML = `
     <button id="et-fb-text" title="Edit text (or double-click)">✏️</button>
+    <button id="et-fb-link" title="Add/edit hyperlink (select text first)">🔗</button>
     <button id="et-fb-add" title="Add element here">➕</button>
     <span class="et-fb-sep"></span>
     <button id="et-fb-dupe" title="Duplicate">⧉</button>
@@ -712,6 +741,21 @@
     <button id="et-fb-panel" title="Toggle style panel">⚙️</button>
   `;
   document.body.appendChild(floatBar);
+
+  // ── Link popover (for hyperlinking selected text) ─────────────────────────
+  const linkPopover = document.createElement('div');
+  linkPopover.id = 'et-link-popover';
+  linkPopover.innerHTML = `
+    <div class="et-lp-row">
+      <input type="text" id="et-lp-url" placeholder="https://… or page.html"/>
+      <button id="et-lp-apply">Apply</button>
+      <button id="et-lp-remove" style="display:none;">Unlink</button>
+      <button id="et-lp-cancel">✕</button>
+    </div>
+  `;
+  document.body.appendChild(linkPopover);
+
+  let savedRange = null;
 
   // ── Add menu (shared by "+" points and floating toolbar) ──────────────────
   const addMenu = document.createElement('div');
@@ -771,6 +815,7 @@
       stopTextEdit();
       deselect();
       hideAddMenu();
+      hideLinkPopover();
       removeInsertPoints();
       floatBar.style.display = 'none';
       document.body.removeEventListener('mouseover', onHover);
@@ -828,7 +873,7 @@
     return el.closest('#et-panel') || el.closest('#et-admin-bar') ||
            el.closest('#et-float-bar') || el.closest('#et-add-menu') ||
            el.closest('.et-insert-point') || el.closest('.et-img-placeholder') ||
-           el.closest('#et-nav-modal');
+           el.closest('#et-nav-modal') || el.closest('#et-link-popover');
   }
 
   // ── Selection ─────────────────────────────────────────────────────────────
@@ -861,6 +906,7 @@
     }
     panel.style.display = 'none';
     floatBar.style.display = 'none';
+    hideLinkPopover();
     hideAddMenu();
   }
 
@@ -1391,6 +1437,123 @@
     }
   });
 
+  // ── Hyperlink popover wiring ──────────────────────────────────────────────
+  function getSelectionRange() {
+    var sel = window.getSelection();
+    if (sel && sel.rangeCount > 0) return sel.getRangeAt(0);
+    return null;
+  }
+
+  function restoreSavedRange() {
+    if (!savedRange) return;
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(savedRange);
+  }
+
+  function getExistingLinkFromSelection() {
+    var sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return null;
+    var node = sel.anchorNode;
+    while (node && node !== document.body) {
+      if (node.nodeType === 1 && node.tagName === 'A') return node;
+      node = node.parentNode;
+    }
+    return null;
+  }
+
+  function hideLinkPopover() {
+    linkPopover.style.display = 'none';
+    savedRange = null;
+  }
+
+  v('et-fb-link').addEventListener('click', function () {
+    if (!selectedEl || !textEditEl) {
+      if (!selectedEl) return;
+      stopTextEdit();
+      textEditEl = selectedEl;
+      selectedEl.contentEditable = 'true';
+      selectedEl.setAttribute('data-et-textedit', '1');
+      selectedEl.focus();
+    }
+
+    var range = getSelectionRange();
+    var existingLink = getExistingLinkFromSelection();
+
+    if (range) savedRange = range.cloneRange();
+
+    var urlInput = v('et-lp-url');
+    var removeBtn = v('et-lp-remove');
+
+    if (existingLink) {
+      urlInput.value = existingLink.getAttribute('href') || '';
+      removeBtn.style.display = 'inline-block';
+    } else {
+      urlInput.value = '';
+      removeBtn.style.display = 'none';
+    }
+
+    var rect = floatBar.getBoundingClientRect();
+    linkPopover.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+    linkPopover.style.left = (rect.left + window.scrollX) + 'px';
+    var maxLeft = window.innerWidth - 340;
+    if (parseInt(linkPopover.style.left) > maxLeft) linkPopover.style.left = maxLeft + 'px';
+    if (parseInt(linkPopover.style.left) < 4) linkPopover.style.left = '4px';
+    linkPopover.style.display = 'block';
+
+    setTimeout(function () { urlInput.focus(); }, 50);
+  });
+
+  v('et-lp-apply').addEventListener('click', function () {
+    var url = v('et-lp-url').value.trim();
+    if (!url) { hideLinkPopover(); return; }
+
+    restoreSavedRange();
+    var sel = window.getSelection();
+
+    if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+      var range = sel.getRangeAt(0);
+      var existingLink = getExistingLinkFromSelection();
+
+      if (existingLink) {
+        existingLink.setAttribute('href', url);
+      } else {
+        var a = document.createElement('a');
+        a.href = url;
+        a.style.color = '';
+        a.target = '_blank';
+        range.surroundContents(a);
+      }
+    } else {
+      var existingLink = getExistingLinkFromSelection();
+      if (existingLink) {
+        existingLink.setAttribute('href', url);
+      }
+    }
+
+    hideLinkPopover();
+  });
+
+  v('et-lp-remove').addEventListener('click', function () {
+    restoreSavedRange();
+    var link = getExistingLinkFromSelection();
+    if (link) {
+      var parent = link.parentNode;
+      while (link.firstChild) parent.insertBefore(link.firstChild, link);
+      parent.removeChild(link);
+    }
+    hideLinkPopover();
+  });
+
+  v('et-lp-cancel').addEventListener('click', function () {
+    hideLinkPopover();
+  });
+
+  v('et-lp-url').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); v('et-lp-apply').click(); }
+    if (e.key === 'Escape') { e.preventDefault(); hideLinkPopover(); }
+  });
+
   // ── Image helpers ──────────────────────────────────────────────────────────
   function getImage(el) {
     if (!el) return null;
@@ -1556,11 +1719,13 @@
 
     // Remove admin elements so they don't appear in saved HTML
     removeInsertPoints();
+    hideLinkPopover();
     document.querySelectorAll('.et-img-placeholder').forEach(el => el.remove());
     imgPlaceholder = null;
     bar.remove();
     panel.remove();
     floatBar.remove();
+    linkPopover.remove();
     addMenu.remove();
     addMenuFileInput.remove();
     adminStyle.remove();
@@ -1573,6 +1738,7 @@
     document.body.appendChild(bar);
     document.body.appendChild(panel);
     document.body.appendChild(floatBar);
+    document.body.appendChild(linkPopover);
     document.body.appendChild(addMenu);
     document.body.appendChild(addMenuFileInput);
     if (editMode) createInsertPoints();
