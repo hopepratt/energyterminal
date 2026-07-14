@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Team &#8212; Energy Terminal</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Our Team — Energy Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0a0a0a; --white: #f5f4f0; --cream: #ede9df;
@@ -86,41 +85,138 @@
     .team-grid { grid-template-columns: 1fr; }
   }
 </style>
-</head>
-<body>
+<style>
+    /* Use visibility so opacity/transform transitions actually fire */
+    .dropdown-menu {
+      display: block !important;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s linear 0.22s;
+      pointer-events: none;
+    }
+    /* Kill the old CSS-hover trigger */
+    .dropdown:hover .dropdown-menu {
+      visibility: hidden; opacity: 0; transform: translateY(8px); pointer-events: none;
+    }
+    /* JS-driven open state */
+    .dropdown.open > .dropdown-menu {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
+    }
+    .dropdown:hover > a .chevron { transform: none; }
+    .dropdown.open > a { color: var(--orange, #f58438); }
+    .dropdown.open > a .chevron { transform: rotate(180deg) !important; }
 
-<nav>
+    /* ── Mobile menu ── */
+    .hamburger span { transition: transform 0.22s ease, opacity 0.22s ease; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mob-overlay {
+      display: none; position: fixed; inset: 0; z-index: 197;
+      background: rgba(10,10,10,0.45); backdrop-filter: blur(2px);
+    }
+    .mob-overlay.open { display: block; }
+
+    .mob-nav {
+      position: fixed; top: 68px; left: 0; right: 0; bottom: 0; z-index: 198;
+      background: var(--white, #f5f4f0);
+      overflow-y: auto; overscroll-behavior: contain;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mob-nav.open { transform: translateX(0); }
+
+    .mob-item { border-bottom: 1px solid var(--border, #d8d3c8); }
+
+    .mob-trigger {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 18px 24px; background: none; border: none;
+      font-family: inherit; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--black, #0a0a0a); cursor: pointer; text-align: left;
+      text-decoration: none;
+    }
+    .mob-trigger:hover { color: var(--orange, #f58438); }
+    .mob-trigger.active { color: var(--orange, #f58438); }
+    .mob-trigger .mob-chevron { font-size: 0.6rem; transition: transform 0.22s; }
+    .mob-trigger.active .mob-chevron { transform: rotate(180deg); }
+
+    .mob-sub {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows 0.28s ease;
+      background: var(--cream, #ede9df);
+    }
+    .mob-sub.open { grid-template-rows: 1fr; }
+    .mob-sub-inner { overflow: hidden; }
+
+    .mob-sub a {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 24px 13px 32px;
+      color: var(--black, #0a0a0a); text-decoration: none;
+      font-size: 0.88rem; border-left: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .mob-sub a:hover { color: var(--orange, #f58438); border-left-color: var(--orange, #f58438); }
+    .mob-sub a .d-icon { font-size: 1rem; width: 22px; flex-shrink: 0; }
+    .mob-sub a .d-desc { font-size: 0.72rem; color: var(--gray, #6b6b6b); display: block; margin-top: 1px; }
+    .mob-sub a:hover .d-desc { color: var(--orange-dark, #d96e20); }
+
+    .mob-cta-wrap { padding: 20px 24px 24px; }
+    .mob-cta-wrap a {
+      display: block; text-align: center;
+      background: var(--orange, #f58438); color: #fff;
+      padding: 14px 24px; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .mob-cta-wrap a:hover { background: var(--orange-dark, #d96e20); }
+  </style><style type="text/css">
+    @font-face{font-family:"Roboto";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-100.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-100.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-100.ttf) format("truetype");font-style:normal;font-weight:100;font-display:swap}@font-face{font-family:"Roboto";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-300.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-300.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-300.ttf) format("truetype");font-style:normal;font-weight:300;font-display:swap}@font-face{font-family:"Roboto";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-400.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-400.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-400.ttf) format("truetype");font-style:normal;font-weight:400;font-display:swap}@font-face{font-family:"Roboto";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-500.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-500.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-500.ttf) format("truetype");font-style:normal;font-weight:500;font-display:swap}@font-face{font-family:"Roboto";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-700.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-700.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-700.ttf) format("truetype");font-style:normal;font-weight:700;font-display:swap}@font-face{font-family:"Roboto";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-900.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-900.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Roboto/roboto-900.ttf) format("truetype");font-style:normal;font-weight:900;font-display:swap}@font-face{font-family:"Rebond";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-400.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-400.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-400.ttf) format("truetype");font-style:normal;font-weight:400;font-display:swap}@font-face{font-family:"Rebond";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-500.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-500.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-500.ttf) format("truetype");font-style:normal;font-weight:500;font-display:swap}@font-face{font-family:"Rebond";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-600.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-600.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-600.ttf) format("truetype");font-style:normal;font-weight:600;font-display:swap}@font-face{font-family:"Rebond";src:url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-700.woff) format("woff"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-700.woff2) format("woff2"),url(chrome-extension://emalgedpdlghbkikiaeocoblajamonoh/fonts/Rebond/rebond-700.ttf) format("truetype");font-style:normal;font-weight:700;font-display:swap}
+    #__wikibuy__ .__wikibuy.__onTop,body~div:not(#gdx-bubble-host),#piggyWrapper,#honeyContainer,#earny-root{position:absolute !important;z-index:100000 !important}.mm-slideout{z-index:initial}.sorry-for-this__empty-styles{position:relative;z-index:10000}
+    #deeecfebcagdfhjjieccedcabidacggb div:empty {
+      display: block !important;
+    }
+  </style><style data-styled="active" data-styled-version="5.3.9">.dWTrLf{visibility:hidden;}.igvzJt{font-family:roboto;font-weight:100;}.igvzJr{font-family:roboto;font-weight:300;}.igvzJo{font-family:roboto;font-weight:400;}.igvzJp{font-family:roboto;font-weight:500;}.igvzJn{font-family:roboto;font-weight:700;}.igvzJl{font-family:roboto;font-weight:900;}.uAvZv{font-family:rebond;font-weight:400;}.uAvZu{font-family:rebond;font-weight:500;}.uAvZx{font-family:rebond;font-weight:600;}.uAvZw{font-family:rebond;font-weight:700;}</style></head>
+<body class="">
+
+<nav class="">
   <a href="index.html" class="nav-logo-text">Energy Terminal</a>
   <ul class="nav-links">
-    <li class="dropdown"><a href="#">About <span class="chevron">&#9662;</span></a>
+    <li class="dropdown"><a href="#">About <span class="chevron">▾</span></a>
       <div class="dropdown-menu">
         <div class="dropdown-section-label">About Us</div>
-        <a href="our-mission.html"><span class="d-icon">&#127919;</span><span><strong>Our Mission</strong><span class="d-desc">Why we exist and what drives us</span></span></a>
-        <a href="our-team.html"><span class="d-icon">&#128101;</span><span><strong>Our Team</strong><span class="d-desc">Meet the people behind ET</span></span></a>
-        <a href="join.html"><span class="d-icon">&#9995;</span><span><strong>Join</strong><span class="d-desc">Become part of the community</span></span></a>
+        <a href="our-mission.html"><span class="d-icon">🎯</span><span><strong>Our Mission</strong><span class="d-desc">Why we exist and what drives us</span></span></a>
+        <a href="our-team.html"><span class="d-icon">👥</span><span><strong>Our Team</strong><span class="d-desc">Meet the people behind ET</span></span></a>
+        <a href="join.html"><span class="d-icon">✋</span><span><strong>Join</strong><span class="d-desc">Become part of the community</span></span></a>
       </div>
     </li>
-    <li class="dropdown"><a href="#">Programs <span class="chevron">&#9662;</span></a>
+    <li class="dropdown"><a href="#" class="">Programs <span class="chevron">▾</span></a>
       <div class="dropdown-menu">
         <div class="dropdown-section-label">Our Programs</div>
-        <a href="emerging-leaders.html"><span class="d-icon">&#127775;</span><span><strong>Emerging Leaders Program</strong><span class="d-desc">Cohort-based student leadership</span></span></a>
-        <a href="virtual-visits.html"><span class="d-icon">&#128187;</span><span><strong>Virtual Visits</strong><span class="d-desc">Connect with energy companies</span></span></a>
+        <a href="emerging-leaders.html"><span class="d-icon">🌟</span><span><strong>Emerging Leaders Program</strong><span class="d-desc">Cohort-based student leadership</span></span></a>
+        <a href="virtual-visits.html"><span class="d-icon">💻</span><span><strong>Virtual Visits</strong><span class="d-desc">Connect with energy companies</span></span></a>
       </div>
     </li>
-    <li class="dropdown"><a href="#">Content <span class="chevron">&#9662;</span></a>
+    <li class="dropdown"><a href="#">Content <span class="chevron">▾</span></a>
       <div class="dropdown-menu">
         <div class="dropdown-section-label">Our Content</div>
-        <a href="podcast.html"><span class="d-icon">&#127897;&#65039;</span><span><strong>Podcast</strong><span class="d-desc">Industry conversations &amp; insights</span></span></a>
+        <a href="podcast.html"><span class="d-icon">🎙️</span><span><strong>Podcast</strong><span class="d-desc">Industry conversations &amp; insights</span></span></a>
       </div>
     </li>
-    <li class="dropdown"><a href="#">Resource Hub <span class="chevron">&#9662;</span></a>
+    <li class="dropdown"><a href="#">Resource Hub <span class="chevron">▾</span></a>
       <div class="dropdown-menu">
         <div class="dropdown-section-label">Resources</div>
-        <a href="resource-hub.html"><span class="d-icon">&#127968;</span><span><strong>Resource Hub Home</strong><span class="d-desc">All resources in one place</span></span></a>
-        <a href="career-pathways.html"><span class="d-icon">&#128506;&#65039;</span><span><strong>Career Pathways</strong><span class="d-desc">Navigate your energy career</span></span></a>
-        <a href="general-resources.html"><span class="d-icon">&#128218;</span><span><strong>General Resources</strong><span class="d-desc">Books, podcasts, newsletters</span></span></a>
-        <a href="recruitment-prep.html"><span class="d-icon">&#128188;</span><span><strong>Recruitment Prep</strong><span class="d-desc">Land your dream energy role</span></span></a>
-        <a href="energy-verticals.html"><span class="d-icon">&#9889;</span><span><strong>Energy Verticals</strong><span class="d-desc">Explore niches in the sector</span></span></a>
+        <a href="resource-hub.html"><span class="d-icon">🏠</span><span><strong>Resource Hub Home</strong><span class="d-desc">All resources in one place</span></span></a>
+        <a href="career-pathways.html"><span class="d-icon">🗺️</span><span><strong>Career Pathways</strong><span class="d-desc">Navigate your energy career</span></span></a>
+        <a href="general-resources.html"><span class="d-icon">📚</span><span><strong>General Resources</strong><span class="d-desc">Books, podcasts, newsletters</span></span></a>
+        <a href="recruitment-prep.html"><span class="d-icon">💼</span><span><strong>Recruitment Prep</strong><span class="d-desc">Land your dream energy role</span></span></a>
+        <a href="energy-verticals.html"><span class="d-icon">⚡</span><span><strong>Energy Verticals</strong><span class="d-desc">Explore niches in the sector</span></span></a>
       </div>
     </li>
     <li><a href="join.html" class="nav-cta">Join ET</a></li>
@@ -138,42 +234,34 @@
   <h2 class="team-section-title">Leadership</h2>
   <div class="team-grid">
     <div class="team-card">
-      <img class="team-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect fill='%23ede9df' width='160' height='160' rx='80'/%3E%3Ccircle cx='80' cy='62' r='28' fill='%23d8d3c8'/%3E%3Cellipse cx='80' cy='140' rx='44' ry='40' fill='%23d8d3c8'/%3E%3C/svg%3E" alt="Team member photo">
-      <h3 class="team-name">First Last</h3>
-      <p class="team-role">Co-Founder &amp; President</p>
+      <img class="team-photo" src="images/1783988965528-gabe.jpg" alt="Team member photo">
+      <h3 class="team-name">Gabe LaCount</h3>
+      <p class="team-role">Co-Executive Director</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" class=""></path></svg>
         LinkedIn
       </a>
     </div>
     <div class="team-card">
-      <img class="team-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect fill='%23ede9df' width='160' height='160' rx='80'/%3E%3Ccircle cx='80' cy='62' r='28' fill='%23d8d3c8'/%3E%3Cellipse cx='80' cy='140' rx='44' ry='40' fill='%23d8d3c8'/%3E%3C/svg%3E" alt="Team member photo">
-      <h3 class="team-name">First Last</h3>
-      <p class="team-role">Co-Founder &amp; VP</p>
+      <img class="team-photo" src="images/1783989012485-zoe.png" alt="Team member photo">
+      <h3 class="team-name">Zoe Springsteen</h3>
+      <p class="team-role">Co-Executive Directory</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
-    <div class="team-card">
-      <img class="team-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect fill='%23ede9df' width='160' height='160' rx='80'/%3E%3Ccircle cx='80' cy='62' r='28' fill='%23d8d3c8'/%3E%3Cellipse cx='80' cy='140' rx='44' ry='40' fill='%23d8d3c8'/%3E%3C/svg%3E" alt="Team member photo">
-      <h3 class="team-name">First Last</h3>
-      <p class="team-role">Director of Operations</p>
-      <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-    </div>
+    
   </div>
 
   <h2 class="team-section-title">Content &amp; Partnerships</h2>
   <div class="team-grid">
     <div class="team-card">
-      <img class="team-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect fill='%23ede9df' width='160' height='160' rx='80'/%3E%3Ccircle cx='80' cy='62' r='28' fill='%23d8d3c8'/%3E%3Cellipse cx='80' cy='140' rx='44' ry='40' fill='%23d8d3c8'/%3E%3C/svg%3E" alt="Team member photo">
-      <h3 class="team-name">First Last</h3>
-      <p class="team-role">Head of Content</p>
+      <img class="team-photo" src="images/1783988816418-gabe_headshot.webp" alt="">
+      <h3 class="team-name">Gabe LaCount</h3>
+      <p class="team-role">Executive Co-Director</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
@@ -182,7 +270,7 @@
       <h3 class="team-name">First Last</h3>
       <p class="team-role">Partnerships Lead</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
@@ -191,7 +279,7 @@
       <h3 class="team-name">First Last</h3>
       <p class="team-role">Podcast Producer</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
@@ -204,7 +292,7 @@
       <h3 class="team-name">First Last</h3>
       <p class="team-role">Community Manager</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
@@ -213,7 +301,7 @@
       <h3 class="team-name">First Last</h3>
       <p class="team-role">ELP Coordinator</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
@@ -222,21 +310,21 @@
       <h3 class="team-name">First Last</h3>
       <p class="team-role">Events &amp; Outreach</p>
       <a class="team-linkedin" href="#" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
   </div>
 
   <div class="orange-band" style="margin-left:-80px;margin-right:-80px;">
-    <h2>Want to Join the Team?</h2>
-    <p>We are always looking for passionate students to help grow Energy Terminal.</p>
+    <h2 class="">Want to Join the Team?</h2>
+    <p class="">We are always looking for passionate students to help grow Energy Terminal.</p>
     <a href="join.html" class="btn">Apply Now</a>
   </div>
 
 </div>
 
-<footer>
+<footer class="">
   <div class="footer-grid">
     <div>
       <span class="footer-brand-name">Energy Terminal</span>
@@ -256,10 +344,10 @@
     </div>
     <div class="footer-col">
       <h4>Programs</h4>
-      <ul>
-        <li><a href="emerging-leaders.html">ELP</a></li>
-        <li><a href="virtual-visits.html">Virtual Visits</a></li>
-        <li><a href="podcast.html">Podcast</a></li>
+      <ul class="">
+        <li class=""><a href="emerging-leaders.html">ELP</a></li>
+        <li class=""><a href="virtual-visits.html">Virtual Visits</a></li>
+        <li class=""><a href="podcast.html">Podcast</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -274,13 +362,14 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&#169;2026 Energy Terminal | All Rights Reserved</p>
-    <a href="mailto:team@energy-terminal.com">team@energy-terminal.com</a>
-    <a href="admin.html" style="opacity:0.55;font-size:0.75rem;letter-spacing:0.05em;">&#128274; Admin</a>
+    <p>©2026 Energy Terminal | All Rights Reserved</p>
+    <a href="mailto:team@energy-terminal.com" class="">team@energy-terminal.com</a>
+    <a href="admin.html" style="opacity:0.55;font-size:0.75rem;letter-spacing:0.05em;">🔒 Admin</a>
   </div>
 </footer>
 
 <script src="nav.js"></script>
 <script src="admin-edit.js"></script>
-</body>
-</html>
+
+
+<div id="deeecfebcagdfhjjieccedcabidacggb" style="color-scheme: initial; forced-color-adjust: initial; math-depth: initial; position: relative; position-anchor: initial; text-size-adjust: initial; appearance: initial; color: initial; font: initial; font-palette: initial; font-synthesis: initial; position-area: initial; text-orientation: initial; text-rendering: initial; text-spacing-trim: initial; -webkit-font-smoothing: initial; -webkit-locale: initial; -webkit-text-orientation: initial; -webkit-writing-mode: initial; writing-mode: initial; zoom: initial; accent-color: initial; place-content: initial; place-items: initial; place-self: initial; alignment-baseline: initial; anchor-name: initial; anchor-scope: initial; animation-composition: initial; animation: initial; animation-trigger: initial; app-region: initial; aspect-ratio: initial; backdrop-filter: initial; backface-visibility: initial; background: initial; background-blend-mode: initial; baseline-shift: initial; baseline-source: initial; block-size: initial; border-block: initial; border: initial; border-radius: initial; border-collapse: initial; border-end-end-radius: initial; border-end-start-radius: initial; border-inline: initial; border-start-end-radius: initial; border-start-start-radius: initial; inset: initial; box-decoration-break: initial; box-shadow: initial; box-sizing: initial; break-after: initial; break-before: initial; break-inside: initial; buffered-rendering: initial; caption-side: initial; caret-animation: initial; caret-color: initial; caret-shape: initial; clear: initial; clip: initial; clip-path: initial; clip-rule: initial; color-interpolation: initial; color-interpolation-filters: initial; color-rendering: initial; columns: initial; column-fill: initial; gap: initial; column-rule: initial; column-span: initial; contain: initial; contain-intrinsic-block-size: initial; contain-intrinsic-size: initial; contain-intrinsic-inline-size: initial; container: initial; content: initial; content-visibility: initial; corner-shape: initial; corner-block-end-shape: initial; corner-block-start-shape: initial; counter-increment: initial; counter-reset: initial; counter-set: initial; cursor: initial; cx: initial; cy: initial; d: initial; display: initial; dominant-baseline: initial; dynamic-range-limit: initial; empty-cells: initial; field-sizing: initial; fill: initial; fill-opacity: initial; fill-rule: initial; filter: initial; flex: initial; flex-flow: initial; float: initial; flood-color: initial; flood-opacity: initial; grid: initial; grid-area: initial; height: 0px !important; hyphenate-character: initial; hyphenate-limit-chars: initial; hyphens: initial; image-orientation: initial; image-rendering: initial; initial-letter: initial; inline-size: initial; inset-block: initial; inset-inline: initial; interactivity: initial; interest-delay: initial; interpolate-size: initial; isolation: initial; letter-spacing: initial; lighting-color: initial; line-break: initial; list-style: initial; margin-block: initial; margin: initial; margin-inline: initial; marker: initial; mask: initial; mask-type: initial; math-shift: initial; math-style: initial; max-block-size: initial; max-height: initial; max-inline-size: initial; max-width: initial; min-block-size: initial; min-height: initial; min-inline-size: initial; min-width: initial; mix-blend-mode: initial; object-fit: initial; object-position: initial; object-view-box: initial; offset: initial; opacity: initial; order: initial; orphans: initial; outline: initial; outline-offset: initial; overflow-anchor: initial; overflow-block: initial; overflow-clip-margin: initial; overflow-inline: initial; overflow-wrap: initial; overflow: initial; overlay: initial; overscroll-behavior-block: initial; overscroll-behavior-inline: initial; overscroll-behavior: initial; padding-block: initial; padding: initial; padding-inline: initial; page: initial; page-orientation: initial; paint-order: initial; perspective: initial; perspective-origin: initial; pointer-events: initial; position-try: initial; position-visibility: initial; print-color-adjust: initial; quotes: initial; r: initial; reading-flow: initial; reading-order: initial; resize: initial; rotate: initial; ruby-align: initial; ruby-position: initial; rx: initial; ry: initial; scale: initial; scroll-behavior: initial; scroll-initial-target: initial; scroll-margin-block: initial; scroll-margin: initial; scroll-margin-inline: initial; scroll-marker-group: initial; scroll-padding-block: initial; scroll-padding: initial; scroll-padding-inline: initial; scroll-snap-align: initial; scroll-snap-stop: initial; scroll-snap-type: initial; scroll-target-group: initial; scroll-timeline: initial; scrollbar-color: initial; scrollbar-gutter: initial; scrollbar-width: initial; shape-image-threshold: initial; shape-margin: initial; shape-outside: initial; shape-rendering: initial; size: initial; speak: initial; stop-color: initial; stop-opacity: initial; stroke: initial; stroke-dasharray: initial; stroke-dashoffset: initial; stroke-linecap: initial; stroke-linejoin: initial; stroke-miterlimit: initial; stroke-opacity: initial; stroke-width: initial; tab-size: initial; table-layout: initial; text-align: initial; text-align-last: initial; text-anchor: initial; text-autospace: initial; text-box: initial; text-combine-upright: initial; text-decoration: initial; text-decoration-skip-ink: initial; text-emphasis: initial; text-emphasis-position: initial; text-indent: initial; text-justify: initial; text-overflow: initial; text-shadow: initial; text-transform: initial; text-underline-offset: initial; text-underline-position: initial; text-wrap: initial; timeline-scope: initial; timeline-trigger: initial; touch-action: initial; transform: initial; transform-box: initial; transform-origin: initial; transform-style: initial; transition: initial; translate: initial; trigger-scope: initial; user-select: initial; vector-effect: initial; vertical-align: initial; view-timeline: initial; view-transition-class: initial; view-transition-group: initial; view-transition-name: initial; visibility: initial; border-spacing: initial; -webkit-box-align: initial; -webkit-box-decoration-break: initial; -webkit-box-direction: initial; -webkit-box-flex: initial; -webkit-box-ordinal-group: initial; -webkit-box-orient: initial; -webkit-box-pack: initial; -webkit-box-reflect: initial; -webkit-line-break: initial; -webkit-line-clamp: initial; -webkit-mask-box-image: initial; -webkit-rtl-ordering: initial; -webkit-ruby-position: initial; -webkit-tap-highlight-color: initial; -webkit-text-combine: initial; -webkit-text-decorations-in-effect: initial; -webkit-text-fill-color: initial; -webkit-text-security: initial; -webkit-text-stroke: initial; -webkit-user-drag: initial; white-space-collapse: initial; widows: initial; width: 0px !important; will-change: initial; word-break: initial; word-spacing: initial; x: initial; y: initial; z-index: 2147483647;"><div class="dhcccfjjacdafaebicfbjeacacjbdbch" style="all: initial;"></div></div></body></html>
