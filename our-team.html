@@ -364,6 +364,97 @@
       transition: background 0.2s;
     }
     .mob-cta-wrap a:hover { background: var(--orange-dark, #d96e20); }
+  </style><style>
+    /* Use visibility so opacity/transform transitions actually fire */
+    .dropdown-menu {
+      display: block !important;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s linear 0.22s;
+      pointer-events: none;
+    }
+    /* Kill the old CSS-hover trigger */
+    .dropdown:hover .dropdown-menu {
+      visibility: hidden; opacity: 0; transform: translateY(8px); pointer-events: none;
+    }
+    /* JS-driven open state */
+    .dropdown.open > .dropdown-menu {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
+    }
+    .dropdown:hover > a .chevron { transform: none; }
+    .dropdown.open > a { color: var(--orange, #f58438); }
+    .dropdown.open > a .chevron { transform: rotate(180deg) !important; }
+
+    /* ── Mobile menu ── */
+    .hamburger span { transition: transform 0.22s ease, opacity 0.22s ease; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mob-overlay {
+      display: none; position: fixed; inset: 0; z-index: 197;
+      background: rgba(10,10,10,0.45); backdrop-filter: blur(2px);
+    }
+    .mob-overlay.open { display: block; }
+
+    .mob-nav {
+      position: fixed; top: 68px; left: 0; right: 0; bottom: 0; z-index: 198;
+      background: var(--white, #f5f4f0);
+      overflow-y: auto; overscroll-behavior: contain;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mob-nav.open { transform: translateX(0); }
+
+    .mob-item { border-bottom: 1px solid var(--border, #d8d3c8); }
+
+    .mob-trigger {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 18px 24px; background: none; border: none;
+      font-family: inherit; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--black, #0a0a0a); cursor: pointer; text-align: left;
+      text-decoration: none;
+    }
+    .mob-trigger:hover { color: var(--orange, #f58438); }
+    .mob-trigger.active { color: var(--orange, #f58438); }
+    .mob-trigger .mob-chevron { font-size: 0.6rem; transition: transform 0.22s; }
+    .mob-trigger.active .mob-chevron { transform: rotate(180deg); }
+
+    .mob-sub {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows 0.28s ease;
+      background: var(--cream, #ede9df);
+    }
+    .mob-sub.open { grid-template-rows: 1fr; }
+    .mob-sub-inner { overflow: hidden; }
+
+    .mob-sub a {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 24px 13px 32px;
+      color: var(--black, #0a0a0a); text-decoration: none;
+      font-size: 0.88rem; border-left: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .mob-sub a:hover { color: var(--orange, #f58438); border-left-color: var(--orange, #f58438); }
+    .mob-sub a .d-icon { font-size: 1rem; width: 22px; flex-shrink: 0; }
+    .mob-sub a .d-desc { font-size: 0.72rem; color: var(--gray, #6b6b6b); display: block; margin-top: 1px; }
+    .mob-sub a:hover .d-desc { color: var(--orange-dark, #d96e20); }
+
+    .mob-cta-wrap { padding: 20px 24px 24px; }
+    .mob-cta-wrap a {
+      display: block; text-align: center;
+      background: var(--orange, #f58438); color: #fff;
+      padding: 14px 24px; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .mob-cta-wrap a:hover { background: var(--orange-dark, #d96e20); }
   </style></head>
 <body class="">
 
@@ -510,18 +601,42 @@
       </a>
     </div>
     <div class="team-card">
-      <img class="team-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect fill='%23ede9df' width='160' height='160' rx='80'/%3E%3Ccircle cx='80' cy='62' r='28' fill='%23d8d3c8'/%3E%3Cellipse cx='80' cy='140' rx='44' ry='40' fill='%23d8d3c8'/%3E%3C/svg%3E" alt="Team member photo">
-      <h3 class="team-name">First Last</h3>
-      <p class="team-role">ELP Coordinator</p>
+      <img class="team-photo" src="images/1783989699276-Michael_Wood.jpg" alt="Team member photo">
+      <h3 class="team-name">Michael Wood III</h3>
+      <p class="team-role">Co-Founder</p>
       <a class="team-linkedin" href="#" target="_blank">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
       </a>
     </div>
     <div class="team-card">
-      <img class="team-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect fill='%23ede9df' width='160' height='160' rx='80'/%3E%3Ccircle cx='80' cy='62' r='28' fill='%23d8d3c8'/%3E%3Cellipse cx='80' cy='140' rx='44' ry='40' fill='%23d8d3c8'/%3E%3C/svg%3E" alt="Team member photo">
-      <h3 class="team-name">First Last</h3>
-      <p class="team-role">Events &amp; Outreach</p>
+      <img class="team-photo" src="images/1783989715747-chloe_young.jpg" alt="Team member photo">
+      <h3 class="team-name">Chloe Young</h3>
+      <p class="team-role">Past Co-Executive Director</p>
+      <a class="team-linkedin" href="#" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+        LinkedIn
+      </a>
+    </div><div class="team-card">
+      <img class="team-photo" src="images/1783989715747-chloe_young.jpg" alt="Team member photo">
+      <h3 class="team-name">Chloe Young</h3>
+      <p class="team-role">Past Co-Executive Director</p>
+      <a class="team-linkedin" href="#" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+        LinkedIn
+      </a>
+    </div><div class="team-card">
+      <img class="team-photo" src="images/1783989715747-chloe_young.jpg" alt="Team member photo">
+      <h3 class="team-name">Chloe Young</h3>
+      <p class="team-role">Past Co-Executive Director</p>
+      <a class="team-linkedin" href="#" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+        LinkedIn
+      </a>
+    </div><div class="team-card">
+      <img class="team-photo" src="images/1783989715747-chloe_young.jpg" alt="Team member photo">
+      <h3 class="team-name">Chloe Young</h3>
+      <p class="team-role">Past Co-Executive Director</p>
       <a class="team-linkedin" href="#" target="_blank">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
         LinkedIn
