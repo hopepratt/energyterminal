@@ -33,15 +33,22 @@
   .page-hero h1 em{font-style:normal;color:var(--orange);}
   .page-hero p{font-size:1.1rem;color:var(--gray);max-width:600px;line-height:1.75;}
   .page-content{padding:80px;max-width:1100px;margin:0 auto;}
-  .verticals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);margin-bottom:60px;}
-  .vertical-card{background:var(--white);padding:36px 28px;position:relative;overflow:hidden;transition:background 0.3s;}
+  .verticals-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:60px;}
+  .vertical-card{background:var(--white);border:1px solid var(--border);padding:32px;position:relative;overflow:hidden;transition:box-shadow 0.3s,transform 0.3s;}
   .vertical-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform 0.35s;}
-  .vertical-card:hover{background:var(--cream);}
+  .vertical-card:hover{box-shadow:0 8px 32px rgba(245,132,56,0.12);transform:translateY(-3px);}
   .vertical-card:hover::before{transform:scaleX(1);}
-  .v-icon{font-size:2rem;margin-bottom:14px;}
-  .v-tag{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
-  .vertical-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:10px;}
-  .vertical-card p{color:var(--gray);font-size:0.85rem;line-height:1.65;}
+  .vertical-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:12px;color:var(--black);}
+  .vertical-card>p{color:var(--gray);font-size:0.9rem;line-height:1.7;margin-bottom:16px;}
+  .v-section-label{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin:16px 0 6px;}
+  .v-links{list-style:none;padding:0;margin:0 0 4px;}
+  .v-links li{margin-bottom:4px;}
+  .v-links li a{color:var(--orange);text-decoration:underline;font-size:0.88rem;transition:color 0.2s;}
+  .v-links li a:hover{color:var(--orange-dark);}
+  .v-companies{color:var(--gray);font-size:0.88rem;line-height:1.7;margin-bottom:4px;}
+  .v-involve{color:var(--gray);font-size:0.88rem;line-height:1.7;}
+  .v-involve a{color:var(--orange);text-decoration:underline;}
+  .v-involve a:hover{color:var(--orange-dark);}
   .orange-band{background:var(--orange);color:#fff;padding:60px 80px;text-align:center;margin-left:-80px;margin-right:-80px;}
   .orange-band h2{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;margin-bottom:16px;}
   .orange-band p{opacity:0.85;font-size:1rem;margin-bottom:32px;}
@@ -59,7 +66,7 @@
   .footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--gray);}
   .footer-bottom a{color:var(--gray);text-decoration:none;}
   .footer-bottom a:hover{color:var(--orange);}
-  @media(max-width:900px){nav{padding:0 24px;}.nav-links{display:none;}.page-hero{padding:60px 24px;}.page-content{padding:48px 24px;}.verticals-grid{grid-template-columns:1fr 1fr;}.orange-band{padding:48px 24px;margin-left:-24px;margin-right:-24px;}footer{padding:48px 24px 32px;}.footer-grid{grid-template-columns:1fr 1fr;gap:32px;}.footer-bottom{flex-direction:column;gap:12px;text-align:center;}}
+  @media(max-width:900px){nav{padding:0 24px;}.nav-links{display:none;}.page-hero{padding:60px 24px;}.page-content{padding:48px 24px;}.verticals-grid{grid-template-columns:1fr;}.orange-band{padding:48px 24px;margin-left:-24px;margin-right:-24px;}footer{padding:48px 24px 32px;}.footer-grid{grid-template-columns:1fr 1fr;gap:32px;}.footer-bottom{flex-direction:column;gap:12px;text-align:center;}}
 </style>
 </head>
 <body>
@@ -108,30 +115,327 @@
 
 <div class="page-hero">
   <p class="page-hero-eyebrow">Resource Hub</p>
-  <h1><em>Energy Verticals</em></h1>
-  <p>The energy industry is not monolithic. Explore the specific sub-sectors that power our world — and find where you want to build your career.</p>
+  <h1>Energy <em>Verticals</em></h1>
 </div>
 
 <div class="page-content">
   <div class="verticals-grid">
-    <div class="vertical-card"><div class="v-icon">☀️</div><p class="v-tag">Renewable</p><h3>Solar Energy</h3><p>Utility-scale farms, rooftop installations, and distributed generation. One of the fastest-growing sectors with vast career opportunities globally.</p></div>
-    <div class="vertical-card"><div class="v-icon">💨</div><p class="v-tag">Renewable</p><h3>Wind Energy</h3><p>Onshore and offshore wind are central to the clean energy transition. Engineering, project development, and supply chain roles in high demand.</p></div>
-    <div class="vertical-card"><div class="v-icon">⚛️</div><p class="v-tag">Low-Carbon</p><h3>Nuclear Energy</h3><p>Advanced reactor designs and SMRs have sparked a resurgence. Nuclear offers reliable, low-carbon baseload power and exciting technical careers.</p></div>
-    <div class="vertical-card"><div class="v-icon">🔋</div><p class="v-tag">Storage</p><h3>Energy Storage</h3><p>Batteries and emerging storage technologies are critical for grid reliability. An exploding sector with deep technical and commercial tracks.</p></div>
-    <div class="vertical-card"><div class="v-icon">🟢</div><p class="v-tag">Fuels</p><h3>Green Hydrogen</h3><p>A key decarbonization tool for hard-to-abate sectors like steel, shipping, and aviation. Still early stage with significant investment flowing in.</p></div>
-    <div class="vertical-card"><div class="v-icon">🛢️</div><p class="v-tag">Traditional</p><h3>Oil &amp; Gas</h3><p>The world's largest energy source is transforming. Understand the energy transition from within one of the most impactful industries on Earth.</p></div>
-    <div class="vertical-card"><div class="v-icon">🏙️</div><p class="v-tag">Infrastructure</p><h3>Grid &amp; Utilities</h3><p>The electric grid is being rebuilt for the 21st century. Careers in grid modernization, demand response, and smart infrastructure abound.</p></div>
-    <div class="vertical-card"><div class="v-icon">📊</div><p class="v-tag">Markets</p><h3>Carbon Markets</h3><p>Voluntary and compliance carbon markets are growing fast. A complex financial ecosystem with roles spanning trading, project development, and policy.</p></div>
-    <div class="vertical-card"><div class="v-icon">🌊</div><p class="v-tag">Emerging</p><h3>Marine &amp; Tidal</h3><p>Ocean energy from tidal streams, waves, and OTEC is an emerging frontier with long-term potential for coastal and island communities worldwide.</p></div>
-    <div class="vertical-card"><div class="v-icon">🚗</div><p class="v-tag">Transport</p><h3>EV &amp; Mobility</h3><p>The electrification of transport is reshaping the auto industry, grid demand, and urban infrastructure. From charging networks to battery tech.</p></div>
-    <div class="vertical-card"><div class="v-icon">🏗️</div><p class="v-tag">Efficiency</p><h3>Building Efficiency</h3><p>Buildings consume 40% of global energy. Retrofits, smart systems, and green building design offer impactful and growing career pathways.</p></div>
-    <div class="vertical-card"><div class="v-icon">🌿</div><p class="v-tag">Agriculture</p><h3>Agri-Energy</h3><p>From biogas and biomass to agrivoltaics and rural electrification — the intersection of food systems and energy is a rich area of innovation.</p></div>
-  </div>
 
-  <div class="orange-band">
-    <h2>Not Sure Which Vertical Fits You?</h2>
-    <p>Join Energy Terminal's community and connect with students and professionals across every energy sector.</p>
-    <a href="join.html" class="btn btn-white">Join the Community</a>
+    <div class="vertical-card">
+      <h3>EV Charging</h3>
+      <p>From the chargers themselves, fleet charging services, charging networks, or advocacy groups, there are roles for everyone in this fast-growing vertical!</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.ctvc.co/current-state-of-the-ev-charging-market/" target="_blank">Current State of the EV Charging Market</a></li>
+        <li><a href="https://afdc.energy.gov/fuels/electricity-infrastructure-trends" target="_blank">Charging Infrastructure Trends</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">EVGo, Chargepoint, Blink, DG Matrix, bp pulse, ElectricFish, Electrify America, Electric Era, FreeWire Technologies, Volta</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve">Check out job boards for above companies and more! And, look at Accelerator's to find other startups with focuses in EV Charging. Ex. <a href="https://www.joulesaccelerator.com/allstartups" target="_blank">Joules Accelerator</a> — have done a lot of great work with EV charging startups &amp; always looking to hire students!</p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Infrastructure</h3>
+      <p>Green infrastructure is a way to rethink our urban challenges with nature.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.americanrivers.org/what-is-green-infrastructure/" target="_blank">What is Green Infrastructure</a></li>
+        <li><a href="https://www.nrdc.org/stories/green-infrastructure-how-manage-water-sustainable-way" target="_blank">How to Manage Water as an Example</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Brentwood Industries, Burns &amp; McDonald, Brown &amp; Caldwell, Stantec, Green Infrastructure Partners</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve">Brentwood Industries Careers, Green Infrastructure Partners</p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Transportation</h3>
+      <p>This rapidly changing sector is inherently energy-dependent, with a ton of new roles popping up thanks to the rise of the electric vehicles industry.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://nca2018.globalchange.gov/chapter/12/" target="_blank">Intro to Transportation</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Tesla, Rivian, Lucid, Proterra, Stellantis, Ford, GM, Hyundai, Kia, Volkswaggen, BMW, Zoox</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://www.transportation.gov/careers/internships" target="_blank">US Dept. of Transportation Internships</a></li>
+        <li><a href="https://www.evgo.com/company/careers/#open-positions" target="_blank">EVGo internships + open jobs</a></li>
+        <li><a href="https://www.tesla.com/careers/search/?type=3&amp;site=US" target="_blank">Tesla internships</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Climate Management</h3>
+      <p>Quantifying and preparing for the material risks associated with a changing climate.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.ametsoc.org/index.cfm/ams/policy/studies-analysis/climate-change-risk-management/" target="_blank">Climate Risk Management, What is it?</a></li>
+        <li><a href="https://www.whitehouse.gov/climate/" target="_blank">National Climate Task Force</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">WSP, Stantec, ICF, Deloitte, Bain &amp; Co, KPMG, BCG, McKinsey &amp; Co, EY</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve"><a href="https://www.terra.do/" target="_blank">Terra.do's</a> climate management and career workshop/fellowship is a great way to learn more about the space and gain some valuable certifications!</p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Industrial</h3>
+      <p>Manufacturing and distribution requires tons of energy, and there are mainly roles looking at how to make these processes more efficient and green.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.nrdc.org/issues/industrial-production#solutions" target="_blank">NRDC Industrial Production</a></li>
+        <li><a href="https://unccelearn.org/course/view.php?id=128&amp;page=overview" target="_blank">Intro to Energy Efficient Ship Operations</a></li>
+        <li><a href="https://www.mckinsey.com/capabilities/sustainability/our-insights/reimagining-industrial-operations" target="_blank">McKinsey Reimagining Industrial Operations</a></li>
+        <li><a href="https://www.energy.gov/industrial-technologies/doe-industrial-decarbonization-roadmap" target="_blank">DOE Industrial Decarbonization Roadmap</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Ameresco, Siemens Energy, Eslin, Boston Metal, Ayro</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://unece.org/info/events/unece-meetings-and-events/sustainable-energy/energy-efficiency" target="_blank">UN's running calendar</a> for global events regarding industrial sustainability</li>
+        <li><a href="https://www.bostonmetal.com/careers/" target="_blank">Boston Metal Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Sustainable Aviation</h3>
+      <p>The next generation of air travel, these companies are trying to make flights more efficient and substantially cut down their currently hefty carbon footprint.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://unccelearn.org/course/view.php?id=26&amp;page=overview" target="_blank">International Aviation: Intro to States' Action Plans to Reduce CO2</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">LanzaJet, ZeroAvia, Universal Hydrogen</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://hydrogen.aero/careers/" target="_blank">Universal Hydrogen Careers</a></li>
+        <li><a href="https://www.lanzajet.com/careers" target="_blank">LanzaJet</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Investment Banks + Private Equity in Energy</h3>
+      <p>Oversee mergers and acquisitions in the energy industry and provide funding for large-scale energy companies and projects.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.bain.com/insights/private-equity-lens-on-energy-transition-global-private-equity-report-2023/" target="_blank">Private Equity Lens on the Energy Transition</a></li>
+        <li><a href="https://www.utilitydive.com/news/private-equity-renewable-energy-storage-clean-tech-report/648029/" target="_blank">Private Equity's Role in the Energy Transition</a></li>
+        <li><a href="https://www.thebanker.com/Financing-the-energy-transition-1701677538" target="_blank">Financing the Energy Transition</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Marathon Capital, Bank of America, Generate Capital, VM Capital, Blue Water Energy, Brookfield Asset Management, Quantum Capital Group, EnCap</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve">GreenBiz hosts a great conference around Energy Finance, feel free to <a href="https://www.greenbiz.com/events/greenfin/2023?utm_content=google-search-gf23" target="_blank">check it out</a> and other events they host across the country.</p>
+      <p class="v-involve"><a href="https://marathoncapital.com/who-we-are/careers" target="_blank">Marathon Capital Careers</a> — Note Investment Banking recruitment is early (see <a href="career-pathways.html">Career Pathways</a>)</p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>US Energy Policy</h3>
+      <p>US Energy Policy is influential in all private / public operations in the energy industry. Policies can either speed or slow the energy transition.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://afdc.energy.gov/laws/key_legislation" target="_blank">Key Federal Legislation</a></li>
+        <li><a href="https://www.iea.org/reports/energy-policies-of-iea-countries-united-states-2019-review" target="_blank">Energy Policies of IEA Countries</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">US Department of Energy, Environmental Protection Agency, Environmental Defense Fund</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve">Check out <a href="https://acore.org/careers/intern-policy/" target="_blank">American Council on Renewable Energy's (ACORE)</a> internship program (They have internship available in Fall, Spring and the Summer -- check out the site for deadlines)</p>
+      <p class="v-involve">Check out <a href="https://www.whitehouse.gov/get-involved/internships/ceq-internships/" target="_blank">The White House's Council on Environmental Quality Internship Program (CEQ)</a> (This also has internships available in the Fall, Spring and the Summer -- check out the site for deadlines)</p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Renewable Development</h3>
+      <p>The process by which renewable projects are built and able to generate energy for our grid.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.mckinsey.com/industries/electric-power-and-natural-gas/our-insights/renewable-energy-development-in-a-net-zero-world" target="_blank">Energy Development in a Net Zero World</a></li>
+        <li><a href="https://www.iea.org/news/renewable-power-s-growth-is-being-turbocharged-as-countries-seek-to-strengthen-energy-security" target="_blank">Development for Energy Security</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">NextEra, Brookfield Renewable Corp, Siemens, EDF Renewable, Apex Clean Energy, Avangrid</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://careers.edf-re.com/" target="_blank">EDF Renewables Careers</a></li>
+        <li><a href="https://www.avangrid.com/peopleandtalent" target="_blank">Avangrid Careers</a> - they have an amazing rotational program</li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>International Energy Policy</h3>
+      <p>Climate change and the energy transition is a global problem, developing effective policies worldwide is necessary to the energy transition's success.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://nca2018.globalchange.gov/chapter/16/" target="_blank">Climate Effects on US International Interests</a></li>
+        <li><a href="https://unccelearn.org/course/view.php?id=87&amp;page=overview" target="_blank">Carbon Taxation</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">United Nations</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve"><a href="https://unosd.un.org/content/internships" target="_blank">UN Office for Sustainable Development</a> - Fall, Spring + Summer internships available</p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Carbon Capture</h3>
+      <p>A means of reducing CO2 emissions by capturing and sequestering carbon.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.c2es.org/content/carbon-capture/" target="_blank">What is Carbon Capture &amp; How Does it Work</a></li>
+        <li><a href="https://climate.mit.edu/explainers/carbon-capture" target="_blank">Carbon Utilization &amp; Storage</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Carbon Engineering, LanzaTech, NewLight Technologies, Global Thermostat, 8 Rivers, Carbon Capture, Carbon America</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://www.carbonamerica.com/careers" target="_blank">Carbon America Careers</a></li>
+        <li><a href="https://www.carboncapture.com/careers" target="_blank">Carbon Capture Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Built Environment</h3>
+      <p>Incorporates everything from buildings and electricity distribution to roads and transportation systems. Roles in this sector consider how these systems interact and provide an incredible opportunity to make a tangible impact on climate change.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://nca2018.globalchange.gov/chapter/11/" target="_blank">Built Environment, Urban Systems, and Cities</a></li>
+        <li><a href="https://www.nrdc.org/stories/green-infrastructure-how-manage-water-sustainable-way" target="_blank">NRDC Sustainable Cities</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">AECOM, Jacobs, HDR</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve">Check out the <a href="https://www.unep.org/about-un-environment/sustainability/get-involved" target="_blank">UN's tips</a> on how to get involved in sustainability and the built environment!</p>
+      <p class="v-involve"><a href="https://careers.jacobs.com/" target="_blank">Jacobs</a> has A LOT of job postings and updates them regularly so keep an eye out.</p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Food and Land</h3>
+      <p>Rethinking agriculture and land use to create healthier and more sustainable food systems.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://nca2018.globalchange.gov/chapter/5/" target="_blank">Land Cover &amp; Land Use Change</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Organic Valley, Nature's Path, One Degree Foods, Justins, Beyond Meat</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li>Job Seeking Resources from <a href="https://nesawg.org/job-resources" target="_blank">NESAWG</a> (Northeast Sustainable Agriculture Working Group)</li>
+        <li><a href="https://www.organicvalley.coop/careers/" target="_blank">Organic Valley Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Hydrogen</h3>
+      <p>An emerging industry based on a carbon-free fuel source that could have game-changing applications in energy storage, transportation, and hard-to-abate sectors.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.energy.gov/eere/articles/hydrogen-clean-flexible-energy-carrier" target="_blank">Hydrogen as an Energy Source</a></li>
+        <li><a href="https://www.iea.org/reports/the-future-of-hydrogen" target="_blank">Hydrogen Utilization</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Universal Hydrogen, Bloom Energy Co, Plug Power, New Fortress Energy, Linde, Syzygy Plasmonics, Electric Hydrogen</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://www.energy.gov/eere/fuelcells/careers-hydrogen-and-fuel-cells" target="_blank">Dept. of Energy's Info + Resources on Careers in Hydrogen</a></li>
+        <li><a href="https://plugpower.wd5.myworkdayjobs.com/Plug_Power_Inc" target="_blank">Plug Power Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Climate Activism</h3>
+      <p>A way to seek political change through creating awareness and advocacy campaigns about the climate crisis.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.pewresearch.org/science/2021/05/26/climate-engagement-and-activism/" target="_blank">Climate Activism Landscape Today</a></li>
+        <li><a href="https://www.pewresearch.org/science/2021/05/26/gen-z-millennials-stand-out-for-climate-change-activism-social-media-engagement-with-issue/" target="_blank">GenZ and Millenials in Climate Activism</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Sunrise Movement, Climate Reality Project, Greenpeace, Citizen's Climate Lobby, Climate Justice Alliance, Environmental Defense Fund</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://www.gridunited.com/projects/" target="_blank">Grid United Projects</a></li>
+        <li><a href="https://www.gridunited.com/careers/" target="_blank">Job Postings</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Oil &amp; Gas</h3>
+      <p>From discovery and extraction to refining and distribution, these companies produce gasoline for ICE vehicles and natural gas for electricity production.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.nrel.gov/research/learning.html" target="_blank">Energy Basics</a></li>
+        <li><a href="https://www.youtube.com/watch?v=k4cVxGndh9g" target="_blank">Intro to Oil &amp; Gas</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">bp, Shell, Exxon, Chevron, Marathon, TotalEnergies, Aramco</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve"><a href="https://www.bp.com/en/global/corporate/careers/students-and-graduates/locations/united-states/early-engagement-programs.html" target="_blank">bp early career and internship programs</a></p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Green Finance</h3>
+      <p>Incorporates any structured financial activity that's been created to ensure a better environmental outcome, including financing for renewables projects, pollution control, and more.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.nrdc.org/issues/sustainable-finance" target="_blank">NRDC Sustainable Finance</a></li>
+        <li><a href="https://unccelearn.org/course/view.php?id=139&amp;page=overview" target="_blank">Intro to Sustainable Finance</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Generate Capital, Marathon Capital, Bain Group</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve"><a href="https://www.voiz.academy/esg" target="_blank">Voiz Academy ESG Program</a></p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>VCs and Startups in Energy</h3>
+      <p>Venture Capital Firms support the growth of startups, which can have a major impact on commercializing needed climate tech.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.forbes.com/sites/jeffmcmahon/2019/05/29/7-new-types-of-investors-fueling-clean-energys-venture-capital-renaissance/" target="_blank">Energy's VC Renaissance</a></li>
+        <li><a href="https://www.ctvc.co/climate-tech-vc/" target="_blank">Running List of VCs</a></li>
+        <li><a href="https://breakthroughenergy.org/our-work/breakthrough-energy-ventures/" target="_blank">Breakthrough Energy Ventures Portfolio Page</a></li>
+        <li><a href="https://lowercarboncapital.com/companies/" target="_blank">Lowercarbon Capital Portfolio Page</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Breakthrough Energy Ventures, Earthshot Ventures, Lowercarbon Capital, Azimuth Ventures, PowerhouseVentures, Heirloom, Lunar Energy, Sublime Systems, Watershed, Kula Bio</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve">Check out Newsletters on the <a href="general-resources.html">General Resources Page</a>. One of the best ways to get involved in VC is learning about the industry and keeping up with the trends.</p>
+      <p class="v-involve"><a href="https://www.joulesaccelerator.com/internships" target="_blank">Joules Accelerator Internship Program:</a> One of the premier Startup Accelerator internships in the United States!</p>
+      <p class="v-involve"><a href="https://www.linkedin.com/posts/illaigescheit_venturecapital-sustainablefinance-sustainability-activity-7103423291419189250-cGzF/" target="_blank">Article about working in VC</a></p>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Transmission</h3>
+      <p>Transmission is responsible for how energy moves around our grids, it is currently one of the biggest obstacles to increased renewable energy and storage deployments.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://www.gatesnotes.com/Transmission" target="_blank">The Surprising Key to a Clean Energy Future (Bill Gates)</a></li>
+        <li><a href="https://www.energy.gov/sites/default/files/2022-04/Queued%20Up%E2%80%A6But%20in%20Need%20of%20Transmission.pdf" target="_blank">DOE Report on Transmission</a></li>
+        <li><a href="https://netzeroamerica.princeton.edu/the-report" target="_blank">Princeton Net Zero America Report</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Grid United, NextEra Energy Transmission, TransCanyon, Pattern Energy Group</p>
+      <p class="v-section-label">Get Involved</p>
+      <ul class="v-links">
+        <li><a href="https://www.gridunited.com/projects/" target="_blank">Grid United Projects</a></li>
+        <li><a href="https://www.gridunited.com/careers/" target="_blank">Job Postings</a></li>
+      </ul>
+    </div>
+
+    <div class="vertical-card">
+      <h3>Energy Justice</h3>
+      <p>A means to challenge inequities in the energy sector, energy justice is crucial to having an equitable energy transition.</p>
+      <p class="v-section-label">Resources</p>
+      <ul class="v-links">
+        <li><a href="https://unccelearn.org/course/view.php?id=142&amp;page=overview" target="_blank">Gender Equality &amp; Human Rights</a></li>
+      </ul>
+      <p class="v-section-label">Example Companies</p>
+      <p class="v-companies">Energy Justice Network</p>
+      <p class="v-section-label">Get Involved</p>
+      <p class="v-involve"><a href="https://350.org/get-involved/?r=US&amp;c=NA" target="_blank">Join 350</a> - a great organization doing a lot of amazing work around climate and energy justice!</p>
+    </div>
+
   </div>
 </div>
 
