@@ -5,113 +5,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Everything you need to start your career in energy.">
   <title>Career Pathways — Energy Terminal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
-
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --surface-hover: #1c2430;
-      --border: #30363d;
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-      --accent: #3fb950;
-      --accent-dim: rgba(63, 185, 80, 0.15);
-      --accent-secondary: #58a6ff;
+      --black: #0a0a0a;
+      --white: #f5f4f0;
+      --cream: #ede9df;
+      --orange: #f58438;
+      --orange-dark: #d96e20;
+      --orange-light: #ffa466;
+      --accent: #1a1a2e;
+      --gray: #6b6b6b;
+      --border: #d8d3c8;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--black); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
 
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    /* NAV */
+    /* ── NAV ── */
     nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2rem;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: var(--white);
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(13, 17, 23, 0.95);
-      backdrop-filter: blur(12px);
-      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
     }
-    nav .logo img { height: 40px; }
-    nav .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-    nav .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: color 0.2s;
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--orange); letter-spacing: 0.02em; text-decoration: none;
     }
-    nav .nav-links a:hover { color: var(--text); }
-    nav .nav-links a.active { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links > li { position: relative; }
+    .nav-links > li > a {
+      text-decoration: none; color: var(--black);
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; transition: color 0.2s; padding: 8px 0;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .nav-links > li > a:hover { color: var(--orange); }
+    .nav-links > li > a .chevron { font-size: 0.6rem; transition: transform 0.2s; display: inline-block; }
+    .dropdown:hover > a .chevron { transform: rotate(180deg); }
+    .dropdown-menu {
+      display: none; opacity: 0; transform: translateY(8px);
+      position: absolute; top: calc(100% + 8px); left: 0;
+      background: var(--white); border: 1px solid var(--border);
+      border-top: 3px solid var(--orange); min-width: 240px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+      transition: opacity 0.2s, transform 0.2s; pointer-events: none;
+    }
+    .dropdown:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .dropdown-section-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--orange);
+      padding: 14px 20px 6px; border-bottom: 1px solid var(--border);
+    }
+    .dropdown-menu a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 20px; font-size: 0.85rem; font-weight: 400;
+      color: var(--black); text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .dropdown-menu a .d-icon { font-size: 1rem; width: 20px; flex-shrink: 0; }
+    .dropdown-menu a .d-desc { font-size: 0.72rem; color: var(--gray); display: block; margin-top: 1px; }
+    .dropdown-menu a:hover { background: var(--cream); color: var(--orange); border-left-color: var(--orange); }
+    .dropdown-menu a:hover .d-desc { color: var(--orange-dark); }
+    .nav-cta {
+      background: var(--orange) !important; color: var(--white) !important;
+      padding: 10px 22px !important; font-size: 0.78rem !important;
+      font-weight: 700 !important; letter-spacing: 0.08em !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--orange-dark) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--black); }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
+      margin-top: 68px;
       text-align: center;
-      padding: 5rem 2rem 3rem;
-      max-width: 700px;
-      margin: 0 auto;
+      padding: 48px 2rem 64px;
+      background: var(--cream);
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
     }
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 900; line-height: 1.1;
+      color: var(--black); margin-bottom: 20px;
     }
     .hero p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
+      color: var(--gray);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
     }
 
-    /* GRID */
+    /* ── PATHWAYS GRID ── */
     .pathways-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.25rem;
+      gap: 20px;
       max-width: 1100px;
       margin: 0 auto;
-      padding: 2rem 2rem 5rem;
+      padding: 48px 80px 80px;
     }
     .pathway-card {
-      background: var(--surface);
+      background: var(--white);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
+      padding: 48px 36px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
       text-decoration: none;
       color: inherit;
-      min-height: 160px;
+      min-height: 180px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
     }
-    .pathway-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(63, 185, 80, 0.08);
+    .pathway-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--orange); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s ease;
     }
+    .pathway-card:hover { background: var(--cream); }
+    .pathway-card:hover::before { transform: scaleX(1); }
     .pathway-card h2 {
-      font-size: 1.35rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 1rem;
+      color: var(--black);
     }
     .pathway-card .explore {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 0.9rem;
+      gap: 0.5rem;
+      color: var(--orange);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
     .pathway-card .explore svg {
       transition: transform 0.2s;
@@ -120,88 +160,82 @@
       transform: translateX(4px);
     }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 3rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .footer-inner {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3rem;
-      justify-content: space-between;
-    }
-    .footer-col h4 {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
-    }
-    .footer-col a {
-      display: block;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 0.9rem;
-      margin-bottom: 0.4rem;
-      transition: color 0.2s;
-    }
-    .footer-col a:hover { color: var(--accent); }
-    .footer-mission {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      max-width: 500px;
-      margin-top: 2rem;
-    }
-    .footer-bottom {
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .footer-bottom span {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-    .footer-social { display: flex; gap: 1rem; }
-    .footer-social a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-    .footer-social a:hover { color: var(--accent); }
+    /* ── FOOTER ── */
+    footer { background: var(--cream); border-top: 1px solid var(--border); padding: 64px 80px 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--orange); margin-bottom: 16px; display: block; }
+    .footer-tagline { font-size: 0.9rem; color: var(--gray); line-height: 1.65; margin-bottom: 28px; }
+    .footer-social { display: flex; gap: 12px; }
+    .social-btn { border: 1.5px solid var(--border); padding: 9px 16px; font-size: 0.78rem; font-weight: 600; color: var(--black); text-decoration: none; letter-spacing: 0.05em; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .social-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+    .footer-col h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--black); margin-bottom: 20px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { text-decoration: none; font-size: 0.88rem; color: var(--gray); transition: color 0.2s; }
+    .footer-col a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--gray); }
+    .footer-bottom a { color: var(--gray); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--orange); }
 
-    @media (max-width: 600px) {
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
       .hero h1 { font-size: 2rem; }
-      .pathways-grid { grid-template-columns: 1fr; }
-      nav .nav-links { display: none; }
+      .hero { padding: 60px 24px 40px; }
+      .pathways-grid { grid-template-columns: 1fr; padding: 0 24px 48px; }
+      footer { padding: 48px 24px 32px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
 <nav>
-  <a class="logo" href="https://www.energy-terminal.com/">
-    <img src="https://images.squarespace-cdn.com/content/v1/61bd236ecb9adb78028e899d/1be7cc2a-9c27-4041-b35c-94cbba3b3e08/Energy+Terminal+Logos-06.png?format=1500w" alt="Energy Terminal">
-  </a>
-  <div class="nav-links">
-    <a href="https://www.energy-terminal.com/our-mission">Our Mission</a>
-    <a href="https://www.energy-terminal.com/emerging-leaders-program">Programs</a>
-    <a href="https://www.energy-terminal.com/podcast">Podcast</a>
-    <a href="https://www.energy-terminal.com/newsletter">Newsletter</a>
-    <a href="https://www.energy-terminal.com/resource-hub-home">Resource Hub</a>
-    <a href="career-pathways.html" class="active">Career Pathways</a>
-  </div>
+  <a href="index.html" class="nav-logo-text">Energy Terminal</a>
+  <ul class="nav-links">
+    <li class="dropdown">
+      <a href="#">About <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">About Us</div>
+        <a href="our-mission.html"><span class="d-icon">&#127919;</span><span><strong>Our Mission</strong><span class="d-desc">Why we exist &amp; what drives us</span></span></a>
+        <a href="our-team.html"><span class="d-icon">&#128101;</span><span><strong>Our Team</strong><span class="d-desc">Meet the people behind ET</span></span></a>
+        <a href="join.html"><span class="d-icon">&#9995;</span><span><strong>Join</strong><span class="d-desc">Become part of the community</span></span></a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Programs <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">Our Programs</div>
+        <a href="emerging-leaders.html"><span class="d-icon">&#127775;</span><span><strong>Emerging Leaders Program</strong><span class="d-desc">Cohort-based student leadership</span></span></a>
+        <a href="virtual-visits.html"><span class="d-icon">&#128187;</span><span><strong>Virtual Visits</strong><span class="d-desc">Connect with energy companies</span></span></a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Content <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">Our Content</div>
+        <a href="podcast.html"><span class="d-icon">&#127897;&#65039;</span><span><strong>Podcast</strong><span class="d-desc">Industry conversations &amp; insights</span></span></a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Resource Hub <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">Resources</div>
+        <a href="resource-hub.html"><span class="d-icon">&#127968;</span><span><strong>Resource Hub Home</strong><span class="d-desc">All resources in one place</span></span></a>
+        <a href="career-pathways.html"><span class="d-icon">&#128506;&#65039;</span><span><strong>Career Pathways</strong><span class="d-desc">Navigate your energy career</span></span></a>
+        <a href="general-resources.html"><span class="d-icon">&#128218;</span><span><strong>General Resources</strong><span class="d-desc">Books, podcasts &amp; more</span></span></a>
+        <a href="recruitment-prep.html"><span class="d-icon">&#128188;</span><span><strong>Recruitment Prep</strong><span class="d-desc">Land your dream energy role</span></span></a>
+        <a href="energy-verticals.html"><span class="d-icon">&#9889;</span><span><strong>Energy Verticals</strong><span class="d-desc">Explore niches in the sector</span></span></a>
+      </div>
+    </li>
+    <li><a href="join.html" class="nav-cta">Join ET</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
 <section class="hero">
+  <p class="hero-eyebrow">Resource Hub</p>
   <h1>Career Pathways</h1>
   <p>Everything you need to start your career in energy.</p>
 </section>
@@ -251,35 +285,31 @@
 </section>
 
 <footer>
-  <div class="footer-inner">
+  <div class="footer-grid">
     <div>
-      <p class="footer-mission">Our mission is to build the next generation of energy leaders and to catalyze youth involvement in energy by providing student-focused content, community</p>
+      <span class="footer-brand-name">Energy Terminal</span>
+      <p class="footer-tagline">Building the next generation of energy leaders by providing student-focused content, community, and career resources.</p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/energy-terminal/" class="social-btn" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg> LinkedIn
+        </a>
+        <a href="https://www.instagram.com/energyterminal/" class="social-btn" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"></circle></svg> Instagram
+        </a>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Quick Links</h4>
-      <a href="https://www.energy-terminal.com/emerging-leaders-program">ELP</a>
-      <a href="https://www.energy-terminal.com/virtual-visits">Virtual Visits</a>
-      <a href="https://www.energy-terminal.com/resource-hub-home">Resource Hub</a>
-    </div>
-    <div class="footer-col">
-      <h4>Content</h4>
-      <a href="https://www.energy-terminal.com/podcast">Podcast</a>
-      <a href="https://www.energy-terminal.com/newsletter">Newsletter</a>
-      <a href="https://www.energy-terminal.com/join">Join Energy Terminal</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contact Us</h4>
-      <a href="mailto:team@energy-terminal.com">team@energy-terminal.com</a>
-    </div>
+    <div class="footer-col"><h4>About</h4><ul><li><a href="our-mission.html">Our Mission</a></li><li><a href="our-team.html">Our Team</a></li><li><a href="join.html">Join</a></li></ul></div>
+    <div class="footer-col"><h4>Programs</h4><ul><li><a href="emerging-leaders.html">Emerging Leaders Program</a></li><li><a href="virtual-visits.html">Virtual Visits</a></li><li><a href="podcast.html">Podcast</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="resource-hub.html">Resource Hub</a></li><li><a href="career-pathways.html">Career Pathways</a></li><li><a href="general-resources.html">General Resources</a></li><li><a href="recruitment-prep.html">Recruitment Prep</a></li><li><a href="energy-verticals.html">Energy Verticals</a></li></ul></div>
   </div>
   <div class="footer-bottom">
-    <span>©2026 Energy Terminal | All Rights Reserved</span>
-    <div class="footer-social">
-      <a href="https://www.linkedin.com/company/energy-terminal/?viewAsMember=true">LinkedIn</a>
-      <a href="https://www.instagram.com/energyterminal/">Instagram</a>
-    </div>
+    <p>&copy;2026 Energy Terminal | All Rights Reserved</p>
+    <a href="mailto:team@energy-terminal.com">team@energy-terminal.com</a>
+    <a href="admin.html" style="opacity:0.55;font-size:0.75rem;letter-spacing:0.05em;">&#128274; Admin</a>
   </div>
 </footer>
+<script src="nav.js"></script>
+<script src="admin-edit.js"></script>
 
 </body>
 </html>

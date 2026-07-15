@@ -9,15 +9,46 @@
 <body>
 
 <nav>
-  <a class="logo" href="https://www.energy-terminal.com/"><img src="https://images.squarespace-cdn.com/content/v1/61bd236ecb9adb78028e899d/1be7cc2a-9c27-4041-b35c-94cbba3b3e08/Energy+Terminal+Logos-06.png?format=1500w" alt="Energy Terminal"></a>
-  <div class="nav-links">
-    <a href="https://www.energy-terminal.com/our-mission">Our Mission</a>
-    <a href="https://www.energy-terminal.com/emerging-leaders-program">Programs</a>
-    <a href="https://www.energy-terminal.com/podcast">Podcast</a>
-    <a href="https://www.energy-terminal.com/newsletter">Newsletter</a>
-    <a href="https://www.energy-terminal.com/resource-hub-home">Resource Hub</a>
-    <a href="career-pathways.html" class="active">Career Pathways</a>
-  </div>
+  <a href="index.html" class="nav-logo-text">Energy Terminal</a>
+  <ul class="nav-links">
+    <li class="dropdown">
+      <a href="#">About <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">About Us</div>
+        <a href="our-mission.html"><span class="d-icon">&#127919;</span><span><strong>Our Mission</strong><span class="d-desc">Why we exist &amp; what drives us</span></span></a>
+        <a href="our-team.html"><span class="d-icon">&#128101;</span><span><strong>Our Team</strong><span class="d-desc">Meet the people behind ET</span></span></a>
+        <a href="join.html"><span class="d-icon">&#9995;</span><span><strong>Join</strong><span class="d-desc">Become part of the community</span></span></a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Programs <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">Our Programs</div>
+        <a href="emerging-leaders.html"><span class="d-icon">&#127775;</span><span><strong>Emerging Leaders Program</strong><span class="d-desc">Cohort-based student leadership</span></span></a>
+        <a href="virtual-visits.html"><span class="d-icon">&#128187;</span><span><strong>Virtual Visits</strong><span class="d-desc">Connect with energy companies</span></span></a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Content <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">Our Content</div>
+        <a href="podcast.html"><span class="d-icon">&#127897;&#65039;</span><span><strong>Podcast</strong><span class="d-desc">Industry conversations &amp; insights</span></span></a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="#">Resource Hub <span class="chevron">&#9662;</span></a>
+      <div class="dropdown-menu">
+        <div class="dropdown-section-label">Resources</div>
+        <a href="resource-hub.html"><span class="d-icon">&#127968;</span><span><strong>Resource Hub Home</strong><span class="d-desc">All resources in one place</span></span></a>
+        <a href="career-pathways.html"><span class="d-icon">&#128506;&#65039;</span><span><strong>Career Pathways</strong><span class="d-desc">Navigate your energy career</span></span></a>
+        <a href="general-resources.html"><span class="d-icon">&#128218;</span><span><strong>General Resources</strong><span class="d-desc">Books, podcasts &amp; more</span></span></a>
+        <a href="recruitment-prep.html"><span class="d-icon">&#128188;</span><span><strong>Recruitment Prep</strong><span class="d-desc">Land your dream energy role</span></span></a>
+        <a href="energy-verticals.html"><span class="d-icon">&#9889;</span><span><strong>Energy Verticals</strong><span class="d-desc">Explore niches in the sector</span></span></a>
+      </div>
+    </li>
+    <li><a href="join.html" class="nav-cta">Join ET</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
 <header class="page-header">
@@ -30,30 +61,305 @@
 </header>
 
 <section class="content">
-  <div class="placeholder-notice">
-    <p>This page's full content could not be loaded due to rate limiting from the source site.</p>
-    <a class="cta-btn" href="https://www.energy-terminal.com/research">View on Energy Terminal →</a>
+
+  <p class="section-label">Segment Breakdown</p>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Energy Policy Research</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Study and development of policies related to energy production, distribution, and consumption. Researchers analyze the implications of energy policies on economics, environment, and society, and propose strategies for sustainable and efficient energy use.</p>
+        <p><strong>Pros:</strong> Influential in shaping public policy, potential for significant societal impact, intellectually stimulating</p>
+        <p><strong>Cons:</strong> Often subject to political dynamics, outcomes can be slow to materialize, may require navigating complex stakeholder interests</p>
+      </div>
+    </div>
   </div>
 
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Technological Research &amp; Development</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Focuses on the innovation and improvement of energy technologies. This includes developing new renewable energy systems, enhancing energy storage solutions, and increasing the efficiency of existing technologies.</p>
+        <p><strong>Pros:</strong> At the forefront of technological advancements, potential for groundbreaking discoveries, highly dynamic and evolving field</p>
+        <p><strong>Cons:</strong> Can require substantial funding and resources, high risk and uncertainty in research outcomes, intense competition for breakthroughs</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Environmental &amp; Climate Impact Research</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Assessing the environmental and climatic effects of various energy sources. Researchers study the lifecycle impact of energy production, including emissions, pollution, and resource use, to inform sustainable practices.</p>
+        <p><strong>Pros:</strong> Critical for understanding and mitigating environmental impacts, interdisciplinary nature, contributes to global sustainability goals</p>
+        <p><strong>Cons:</strong> Complexity in accurately assessing impacts, research can be emotionally taxing given the gravity of climate change, sometimes politically contentious</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Market &amp; Economic Analysis</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Analyzing the energy market dynamics, such as pricing, demand, supply, and the economic feasibility of energy projects. This research is key to understanding market trends and guiding investment and policy decisions.</p>
+        <p><strong>Pros:</strong> Direct impact on investment and business decisions, opportunities for innovative economic solutions, diverse areas of application</p>
+        <p><strong>Cons:</strong> Subject to market volatility, requires a deep understanding of complex economic principles, often influenced by external economic factors</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Socio-Economic Research</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Studies the social and economic aspects of energy, focusing on issues like energy accessibility, equity, and the impact of energy policies on communities. This research helps in creating energy solutions that are socially responsible and inclusive.</p>
+        <p><strong>Pros:</strong> Addresses critical social issues, contributes to fair and equitable energy solutions, broad impact across communities and societies</p>
+        <p><strong>Cons:</strong> Challenges in balancing diverse social interests, research findings can sometimes be at odds with powerful interests, requires understanding of both technical and social dimensions</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Energy Journalism</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Involves reporting and writing about energy-related topics, including new technological developments, policy changes, market trends, and environmental issues. Journalists analyze and communicate complex energy issues to the public.</p>
+        <p><strong>Pros:</strong> Influential in shaping public opinion, dynamic and ever-changing field, opportunities for investigative and impactful reporting</p>
+        <p><strong>Cons:</strong> Fast-paced and deadline-driven, challenge of simplifying complex topics for general audiences, potential for industry or political pressures</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Technical Writing &amp; Communication</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Focuses on creating detailed technical documents, reports, and communications pertaining to energy projects and research. Technical writers translate complex information into understandable content for various stakeholders.</p>
+        <p><strong>Pros:</strong> Essential for knowledge dissemination, opportunities to work on diverse projects, bridges the gap between technical experts and broader audiences</p>
+        <p><strong>Cons:</strong> Can be demanding in terms of accuracy and detail, requires both technical understanding and strong writing skills, often behind-the-scenes work with less public recognition</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Public Relations &amp; Advocacy</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Manages the public image and communications of energy companies and organizations. This includes crafting messages, handling media relations, and engaging in advocacy work to promote and defend energy initiatives.</p>
+        <p><strong>Pros:</strong> Central role in shaping corporate or organizational image, creative and strategic work, opportunities for positive influence in the energy sector</p>
+        <p><strong>Cons:</strong> Can involve managing challenging public perceptions, balancing corporate interests with public interests, high-stakes in terms of company reputation</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Documentary Filmmaking &amp; Media Production</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Involves producing documentaries, videos, and multimedia content focusing on energy issues. Filmmakers use storytelling to educate, inform, and influence opinions and policies related to energy.</p>
+        <p><strong>Pros:</strong> Creative and impactful way to raise awareness, potential for wide reach and influence, visually engaging medium to discuss complex issues</p>
+        <p><strong>Cons:</strong> Requires significant resources and time, challenging to convey technical subjects compellingly, dependent on audience reception and distribution channels</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Social Media &amp; Digital Communication</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p><strong>Description:</strong> Utilizes social media and digital platforms to communicate about energy topics. This involves content creation, digital marketing, and online community engagement to educate and interact with diverse audiences.</p>
+        <p><strong>Pros:</strong> Reach a broad and diverse audience, immediate and interactive communication, creative and dynamic content creation</p>
+        <p><strong>Cons:</strong> Fast-paced and continually evolving platforms, requires consistent engagement and content freshness, risk of misinformation and managing online discourse</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">Recruiting Timeline &amp; Process</p>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Timeline</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p>For most research firms (Bloomberg, S&amp;P, Moody's, Sightline), recruiting will open with job listings in the late fall/early winter before the summer you want to intern. Resume screens usually wrap up in the first few weeks of the new year, with interviews starting towards end of January and working through February and offers extended in March. Some firms also operate on an accelerated timeline with applications opening around the same time but offers going out before the new year.</p>
+        <p><strong>Key:</strong> This is an industry where networking is imperative to get your name out and show off the work that you have done.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <h3>Process</h3>
+      <svg class="chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p>Research, media, and insight interviews differ from firm to firm, but most follow the same general practice: resume screen, behavioral rounds, then a technical round/presentation where you will be asked to present to a team on a research topic or project you have worked on. There can often be a live or asynchronous case study on a certain topic that will test how well you are able to research unknown topics.</p>
+        <p><strong>Key Requirement:</strong> It is imperative to make sure you have research and interest in the sector reflected on your resume that you can talk about in depth. Research companies love seeing broad interest in the field, or specialized interest in what they are looking for.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPANIES -->
+  <div class="companies-section">
+    <h2>Companies Involved</h2>
+    <p class="company-note">* Companies Typically have New Grad or Intern Positions</p>
+    <div class="companies-grid">
+      <div class="company-group">
+        <h4>Economic &amp; Market Intelligence Providers</h4>
+        <ul>
+          <li>Sightline Climate (CTVC)</li>
+          <li>BloombergNEF</li>
+          <li>Net Zero Insights</li>
+          <li>Creo</li>
+          <li>Rhodium Group</li>
+        </ul>
+      </div>
+      <div class="company-group">
+        <h4>Tech Research Providers</h4>
+        <ul>
+          <li>FERC</li>
+          <li>ISOs</li>
+          <li>NREL</li>
+          <li>ARPA-E</li>
+          <li>DOE*</li>
+          <li>RMI*</li>
+          <li>Energy Foundation</li>
+        </ul>
+      </div>
+      <div class="company-group">
+        <h4>News Outlets / Journalism</h4>
+        <ul>
+          <li>New York Times*</li>
+          <li>Canary Media</li>
+          <li>Reuters*</li>
+          <li>Axios Generate</li>
+          <li>Bloomberg Green</li>
+          <li>GreenBiz Group</li>
+          <li>Los Angeles Times*</li>
+        </ul>
+      </div>
+      <div class="company-group">
+        <h4>Environmental Research / Public Relations</h4>
+        <ul>
+          <li>Climate Policy Initiative</li>
+          <li>Brookings Institute</li>
+          <li>EPA*</li>
+          <li>White House</li>
+          <li>DOE LPO</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESOURCES -->
+  <div class="resources-section">
+    <h2>Resources</h2>
+    <a class="resource-link" href="https://www.ctvc.co/">
+      Sightline (CTVC) Newsletter
+      <div class="resource-desc">Quick, quippy content to learn high-level takeaways and writing style</div>
+    </a>
+    <a class="resource-link" href="https://www.pwc.com/gx/en/issues/esg/state-of-climate-tech-2023-investment.html">
+      PwC State of ClimateTech
+      <div class="resource-desc">Annual report on climate tech investment trends</div>
+    </a>
+    <a class="resource-link" href="https://rhg.com/research/clean-investment-monitor/">
+      Rhodium Group Clean Investment Monitor
+      <div class="resource-desc">Example of a high-quality energy research report</div>
+    </a>
+    <a class="resource-link" href="https://www.nathanielbullard.com/presentations">
+      Nat Bullard Presentations
+      <div class="resource-desc">Influential annual energy transition slide decks</div>
+    </a>
+    <a class="resource-link" href="https://about.bnef.com/blog/category/report/">
+      Bloomberg NEF Reports
+      <div class="resource-desc">In-depth energy market research and analysis</div>
+    </a>
+  </div>
+
+  <!-- CTA -->
   <div class="cta-box">
     <h2>Want recruiter contacts + outreach support?</h2>
     <p>Apply for our Community Hub to join our database of fellow students leaders in the energy space! If accepted, your profile will be shared with recruiters in the space; you get access to a database + community of fellow passionate students; you get access to recruiter-facing events.</p>
     <a class="cta-btn" href="https://airtable.com/appuSDpDXVV1AbXDG/shrVogoy2bJ80WU3f">Apply Here</a>
   </div>
+
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <div><p class="footer-mission">Our mission is to build the next generation of energy leaders and to catalyze youth involvement in energy by providing student-focused content, community</p></div>
-    <div class="footer-col"><h4>Quick Links</h4><a href="https://www.energy-terminal.com/emerging-leaders-program">ELP</a><a href="https://www.energy-terminal.com/virtual-visits">Virtual Visits</a><a href="https://www.energy-terminal.com/resource-hub-home">Resource Hub</a></div>
-    <div class="footer-col"><h4>Content</h4><a href="https://www.energy-terminal.com/podcast">Podcast</a><a href="https://www.energy-terminal.com/newsletter">Newsletter</a><a href="https://www.energy-terminal.com/join">Join Energy Terminal</a></div>
-    <div class="footer-col"><h4>Contact Us</h4><a href="mailto:team@energy-terminal.com">team@energy-terminal.com</a></div>
+  <div class="footer-grid">
+    <div>
+      <span class="footer-brand-name">Energy Terminal</span>
+      <p class="footer-tagline">Building the next generation of energy leaders by providing student-focused content, community, and career resources.</p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/energy-terminal/" class="social-btn" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg> LinkedIn
+        </a>
+        <a href="https://www.instagram.com/energyterminal/" class="social-btn" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"></circle></svg> Instagram
+        </a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>About</h4><ul><li><a href="our-mission.html">Our Mission</a></li><li><a href="our-team.html">Our Team</a></li><li><a href="join.html">Join</a></li></ul></div>
+    <div class="footer-col"><h4>Programs</h4><ul><li><a href="emerging-leaders.html">Emerging Leaders Program</a></li><li><a href="virtual-visits.html">Virtual Visits</a></li><li><a href="podcast.html">Podcast</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="resource-hub.html">Resource Hub</a></li><li><a href="career-pathways.html">Career Pathways</a></li><li><a href="general-resources.html">General Resources</a></li><li><a href="recruitment-prep.html">Recruitment Prep</a></li><li><a href="energy-verticals.html">Energy Verticals</a></li></ul></div>
   </div>
   <div class="footer-bottom">
-    <span>©2026 Energy Terminal | All Rights Reserved</span>
-    <div class="footer-social"><a href="https://www.linkedin.com/company/energy-terminal/?viewAsMember=true">LinkedIn</a><a href="https://www.instagram.com/energyterminal/">Instagram</a></div>
+    <p>&copy;2026 Energy Terminal | All Rights Reserved</p>
+    <a href="mailto:team@energy-terminal.com">team@energy-terminal.com</a>
+    <a href="admin.html" style="opacity:0.55;font-size:0.75rem;letter-spacing:0.05em;">&#128274; Admin</a>
   </div>
 </footer>
+
+<script>
+function toggleAccordion(header) {
+  const item = header.parentElement;
+  const body = item.querySelector('.accordion-body');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.accordion-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.accordion-body').style.maxHeight = null;
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+</script>
+<script src="nav.js"></script>
+<script src="admin-edit.js"></script>
 
 </body>
 </html>
