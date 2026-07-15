@@ -5,77 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Newsletter — Energy Terminal</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<!-- SHARED NAV + CSS BLOCK - paste into each subpage -->
-<style>
-  :root {
-    --black: #0a0a0a; --white: #f5f4f0; --cream: #ede9df;
-    --orange: #f58438; --orange-dark: #d96e20; --orange-light: #ffa466;
-    --gray: #6b6b6b; --border: #d8d3c8;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--white); color: var(--black); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 68px; }
-  .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--orange); letter-spacing: 0.02em; text-decoration: none; }
-  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
-  .nav-links > li { position: relative; }
-  .nav-links > li > a { text-decoration: none; color: var(--black); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; display: flex; align-items: center; gap: 5px; }
-  .nav-links > li > a:hover { color: var(--orange); }
-  .chevron { font-size: 0.6rem; transition: transform 0.2s; }
-  .dropdown:hover > a .chevron { transform: rotate(180deg); }
-  .dropdown-menu { display: none; opacity: 0; transform: translateY(8px); position: absolute; top: calc(100% + 8px); left: 0; background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--orange); min-width: 240px; box-shadow: 0 16px 48px rgba(0,0,0,0.12); pointer-events: none; }
-  .dropdown:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); pointer-events: auto; }
-  .dropdown-section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); padding: 14px 20px 6px; border-bottom: 1px solid var(--border); }
-  .dropdown-menu a { display: flex; align-items: center; gap: 10px; padding: 11px 20px; font-size: 0.85rem; font-weight: 400; color: var(--black); text-decoration: none; transition: background 0.15s, color 0.15s; border-left: 3px solid transparent; }
-  .dropdown-menu a .d-icon { font-size: 1rem; width: 20px; flex-shrink: 0; }
-  .dropdown-menu a .d-desc { font-size: 0.72rem; color: var(--gray); display: block; margin-top: 1px; }
-  .dropdown-menu a:hover { background: var(--cream); color: var(--orange); border-left-color: var(--orange); }
-  .nav-cta { background: var(--orange) !important; color: #fff !important; padding: 10px 22px !important; font-size: 0.78rem !important; font-weight: 700 !important; letter-spacing: 0.08em !important; }
-  .nav-cta:hover { background: var(--orange-dark) !important; }
-
-  .page-hero { margin-top: 68px; background: var(--cream); padding: 80px; border-bottom: 1px solid var(--border); }
-  .page-hero-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .page-hero-eyebrow::before { content: ''; display: block; width: 40px; height: 2px; background: var(--orange); }
-  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 900; line-height: 1.15; color: var(--black); margin-bottom: 20px; }
-  .page-hero h1 em { font-style: normal; color: var(--orange); }
-  .page-hero p { font-size: 1.1rem; color: var(--gray); max-width: 600px; line-height: 1.75; }
-  .page-content { padding: 80px; max-width: 1100px; margin: 0 auto; }
-  .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 60px; }
-  .card { background: var(--white); border: 1px solid var(--border); padding: 36px; transition: box-shadow 0.3s, transform 0.3s; }
-  .card:hover { box-shadow: 0 8px 32px rgba(245,132,56,0.12); transform: translateY(-3px); }
-  .card-icon { font-size: 2rem; margin-bottom: 16px; }
-  .card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
-  .card p { color: var(--gray); font-size: 0.93rem; line-height: 1.7; margin-bottom: 20px; }
-  .card-tag { display: inline-block; background: rgba(245,132,56,0.1); color: var(--orange); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 12px; margin-bottom: 16px; }
-  .btn { display: inline-block; padding: 12px 28px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
-  .btn-orange { background: var(--orange); color: #fff; }
-  .btn-orange:hover { background: var(--orange-dark); transform: translateY(-2px); }
-  .btn-bordered { border: 2px solid var(--orange); color: var(--orange); }
-  .btn-bordered:hover { background: var(--orange); color: #fff; }
-  .section-divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
-  .orange-band { background: var(--orange); color: #fff; padding: 60px 80px; text-align: center; }
-  .orange-band h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; }
-  .orange-band p { opacity: 0.85; font-size: 1rem; margin-bottom: 32px; }
-  .orange-band .btn { background: #fff; color: var(--orange); }
-  .orange-band .btn:hover { background: var(--cream); }
-
-  footer { background: var(--cream); border-top: 1px solid var(--border); padding: 64px 80px 40px; }
-  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-  .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--orange); margin-bottom: 16px; display: block; }
-  .footer-tagline { font-size: 0.9rem; color: var(--gray); line-height: 1.65; margin-bottom: 28px; }
-  .footer-social { display: flex; gap: 12px; }
-  .social-btn { border: 1.5px solid var(--border); padding: 9px 16px; font-size: 0.78rem; font-weight: 600; color: var(--black); text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-  .social-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
-  .footer-col h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--black); margin-bottom: 20px; }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .footer-col a { text-decoration: none; font-size: 0.88rem; color: var(--gray); transition: color 0.2s; }
-  .footer-col a:hover { color: var(--orange); }
-  .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--gray); }
-  .footer-bottom a { color: var(--gray); text-decoration: none; }
-  .footer-bottom a:hover { color: var(--orange); }
-  @media (max-width: 900px) { nav { padding: 0 24px; } .nav-links { display: none; } .page-hero { padding: 60px 24px; } .page-content { padding: 48px 24px; } .content-grid { grid-template-columns: 1fr; gap: 24px; } .orange-band { padding: 48px 24px; } footer { padding: 48px 24px 32px; } .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } .footer-bottom { flex-direction: column; gap: 12px; text-align: center; } }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <nav>
