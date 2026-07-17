@@ -127,6 +127,9 @@
   var hamburger = document.querySelector('.hamburger');
   if (!hamburger) return;
 
+  // Remove any pre-existing mob-nav/overlay (e.g. from a browser-saved page)
+  document.querySelectorAll('.mob-overlay, .mob-nav').forEach(function (el) { el.remove(); });
+
   var overlay = document.createElement('div');
   overlay.className = 'mob-overlay';
 
@@ -219,5 +222,9 @@
   });
 
   overlay.addEventListener('click', closeMobileMenu);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobNav.classList.contains('open')) closeMobileMenu();
+  });
 
 })();
